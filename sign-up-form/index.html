@@ -45,30 +45,35 @@
             <div class="form__group">
               <label for="first_name" class="form__label">First Name</label>
               <input type="text" id="first_name" name="first_name"
-                class="form__input" required>
+                class="form__input" minlength="2" pattern="[A-Za-z\-'\s]+"
+                required>
             </div>
             <div class="form__group">
               <label for="last_name" class="form__label">Last Name</label>
               <input type="text" id="last_name" name="last_name"
-                class="form__input" required>
+                class="form__input" minlength="2" pattern="[A-Za-z\-'\s]+"
+                required>
             </div>
           </div>
           <div class="form__row">
             <div class="form__group">
               <label for="email" class="form__label">Email</label>
               <input type="email" id="email" name="email" class="form__input"
-                required>
+                autocomplete="email" inputmode="email" required>
             </div>
             <div class="form__group">
               <label for="phone" class="form__label">Phone Number</label>
-              <input type="tel" id="phone" name="phone" class="form__input">
+              <input type="tel" id="phone" name="phone" class="form__input"
+                pattern="^\+?[0-9\s\-]{7,15}$" minlength="7" maxlength="15"
+                inputmode="tel" autocomplete="tel">
             </div>
           </div>
           <div class="form__row">
             <div class="form__group">
               <label for="password" class="form__label">Password</label>
               <input type="password" id="password" name="password"
-                class="form__input" required>
+                class="form__input" minlength="8"
+                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}" required>
             </div>
             <div class="form__group">
               <label for="confirm_password" class="form__label">Confirm
