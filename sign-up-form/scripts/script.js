@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('signup-form');
   const inputs = document.querySelectorAll('.form__input');
+  const passwordInput = document.getElementById('password');
+  const confirmPasswordInput = document.getElementById('confirm_password');
 
   // Helper to show error message
   function showError(input) {
@@ -28,6 +30,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Password matching validation
+  function checkPasswords() {
+    if (passwordInput.value !== confirmPasswordInput.value) {
+      confirmPasswordInput.setCustomValidity('Passwords do not match');
+    } else {
+      confirmPasswordInput.setCustomValidity('');
+    }
+  }
+
+  // Password Complexity Hints
+  const requirementList = {
+    length: (val) => val.length >= 8,
+    upper: (val) => /[A-Z]/.test(val),
+    lower: (val) => /[a-z]/.test(val),
+    number: (val) => /\d/.test(val)
+  };
+
+  const hintItems = document.querySelectorAll('.password-hints li');
+
+  function updateHints() {
+    const val = passwordInput.value;
+    hintItems.forEach((item) => {
+      const requirement = item.dataset.requirement;
+      const isValid = requirementList[requirement](val);
+      if (isValid) {
+        item.classList.add('valid');
+        item.classList.remove('invalid');
+      } else {
+        item.classList.add('invalid');
+        item.classList.remove('valid');
+      }
+    });
+  }
+
   // Input Event Listeners
   inputs.forEach((input) => {
     // Blur: Mark visited and update error text
@@ -38,10 +74,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Real-time validation
     input.addEventListener('input', () => {
+      // Special check for password fields
+      if (input === passwordInput || input === confirmPasswordInput) {
+        checkPasswords();
+      }
       // Update error message text (CSS controls visibility based on .visited class)
       showError(input);
     });
   });
+
+  passwordInput.addEventListener('input', updateHints);
 
   // Form Submit Handler
   form.addEventListener('submit', (event) => {
