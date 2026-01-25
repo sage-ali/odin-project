@@ -350,8 +350,38 @@ body {
    6. Responsive tweaks
 ========================================= */
 
-@media (max-width: 600px) {
-}
+@media (max-width: 768px) {
+  .split-screen {
+    flex-direction: column;
+  }
+  .sidebar {
+    flex: none;
+    gap: 3rem;
+  }
 
-@media (min-width: 768px) {
+  .sidebar__logo-container {
+    margin-top: 10vh;
+    padding: 2rem 2rem;
+  }
+
+  .sidebar__logo-img {
+    height: 4rem;
+    width: auto;
+  }
+
+  .sidebar__logo-text {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+  }
+
+  .form__row {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  .main__header,
+  .main__form-container,
+  .main__footer {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
 }
