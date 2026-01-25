@@ -46,15 +46,18 @@
               <label for="first_name" class="form__label">First Name</label>
               <input type="text" id="first_name" name="first_name"
                 class="form__input" minlength="2" pattern="[A-Za-z\-'\s]+"
-                required placeholder="Thor">
-              <span class="error-message"></span>
+                required placeholder="Thor" aria-describedby="error-first-name">
+              <span class="error-message" id="error-first-name"
+                aria-live="polite"></span>
             </div>
             <div class="form__group">
               <label for="last_name" class="form__label">Last Name</label>
               <input type="text" id="last_name" name="last_name"
                 class="form__input" minlength="2" pattern="[A-Za-z\-'\s]+"
-                required placeholder="Odinson">
-              <span class="error-message"></span>
+                required placeholder="Odinson"
+                aria-describedby="error-last-name">
+              <span class="error-message" id="error-last-name"
+                aria-live="polite"></span>
             </div>
           </div>
           <div class="form__row">
@@ -62,15 +65,18 @@
               <label for="email" class="form__label">Email</label>
               <input type="email" id="email" name="email" class="form__input"
                 autocomplete="email" inputmode="email" required
-                placeholder="thor@odin.com">
-              <span class="error-message"></span>
+                placeholder="thor@odin.com" aria-describedby="error-email">
+              <span class="error-message" id="error-email"
+                aria-live="polite"></span>
             </div>
             <div class="form__group">
               <label for="phone" class="form__label">Phone Number</label>
               <input type="tel" id="phone" name="phone" class="form__input"
                 pattern="^\+?[0-9\s\-]{7,15}$" minlength="7" maxlength="15"
-                inputmode="tel" autocomplete="tel" placeholder="123-456-7890">
-              <span class="error-message"></span>
+                inputmode="tel" autocomplete="tel" placeholder="123-456-7890"
+                aria-describedby="error-phone">
+              <span class="error-message" id="error-phone"
+                aria-live="polite"></span>
             </div>
           </div>
           <div class="form__row">
@@ -80,9 +86,11 @@
                 class="form__input" minlength="8"
                 pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}" required
                 title="Must contain at least 8 characters, including at least one number, one uppercase and one lowercase letter."
-                placeholder="********">
-              <span class="error-message"></span>
-              <div class="password-hints">
+                placeholder="********"
+                aria-describedby="error-password hint-password">
+              <span class="error-message" id="error-password"
+                aria-live="polite"></span>
+              <div class="password-hints" id="hint-password">
                 <p>Password must contain:</p>
                 <ul>
                   <li data-requirement="length" class="invalid">At least 8
@@ -100,8 +108,10 @@
                 Password</label>
               <input type="password" id="confirm_password"
                 name="confirm_password" class="form__input" required
-                placeholder="********">
-              <span class="error-message"></span>
+                placeholder="********"
+                aria-describedby="error-confirm-password">
+              <span class="error-message" id="error-confirm-password"
+                aria-live="polite"></span>
             </div>
           </div>
         </form>
