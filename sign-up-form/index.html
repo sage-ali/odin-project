@@ -40,32 +40,33 @@
 
       <div class="main__form-container">
         <h2 class="main__form-title">Let's do this!</h2>
-        <form action="#" method="post" id="signup-form" class="form">
+        <form action="#" method="post" id="signup-form" class="form" novalidate>
           <div class="form__row">
             <div class="form__group">
               <label for="first_name" class="form__label">First Name</label>
               <input type="text" id="first_name" name="first_name"
                 class="form__input" minlength="2" pattern="[A-Za-z\-'\s]+"
-                required>
+                required placeholder="Thor">
             </div>
             <div class="form__group">
               <label for="last_name" class="form__label">Last Name</label>
               <input type="text" id="last_name" name="last_name"
                 class="form__input" minlength="2" pattern="[A-Za-z\-'\s]+"
-                required>
+                required placeholder="Odinson">
             </div>
           </div>
           <div class="form__row">
             <div class="form__group">
               <label for="email" class="form__label">Email</label>
               <input type="email" id="email" name="email" class="form__input"
-                autocomplete="email" inputmode="email" required>
+                autocomplete="email" inputmode="email" required
+                placeholder="thor@odin.com">
             </div>
             <div class="form__group">
               <label for="phone" class="form__label">Phone Number</label>
               <input type="tel" id="phone" name="phone" class="form__input"
                 pattern="^\+?[0-9\s\-]{7,15}$" minlength="7" maxlength="15"
-                inputmode="tel" autocomplete="tel">
+                inputmode="tel" autocomplete="tel" placeholder="123-456-7890">
             </div>
           </div>
           <div class="form__row">
@@ -73,13 +74,28 @@
               <label for="password" class="form__label">Password</label>
               <input type="password" id="password" name="password"
                 class="form__input" minlength="8"
-                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}" required>
+                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}" required
+                title="Must contain at least 8 characters, including at least one number, one uppercase and one lowercase letter."
+                placeholder="********">
+              <div class="password-hints">
+                <p>Password must contain:</p>
+                <ul>
+                  <li data-requirement="length" class="invalid">At least 8
+                    characters</li>
+                  <li data-requirement="upper" class="invalid">One uppercase
+                    letter</li>
+                  <li data-requirement="lower" class="invalid">One lowercase
+                    letter</li>
+                  <li data-requirement="number" class="invalid">One number</li>
+                </ul>
+              </div>
             </div>
             <div class="form__group">
               <label for="confirm_password" class="form__label">Confirm
                 Password</label>
               <input type="password" id="confirm_password"
-                name="confirm_password" class="form__input" required>
+                name="confirm_password" class="form__input" required
+                placeholder="********">
             </div>
           </div>
         </form>
