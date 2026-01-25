@@ -81,6 +81,7 @@ ol[role='list'] {
   --font-heading: 'Norse Bold', sans-serif;
 
   --font-size-base: 1.6rem;
+  --font-size-hint: 1.2rem;
 
   /* Spacing & Sizes */
   --space-sm: 1rem;
@@ -215,6 +216,7 @@ body {
   display: flex;
   flex-direction: column;
   flex: 1;
+  position: relative;
 }
 
 .form__label {
@@ -240,6 +242,74 @@ body {
 .form__input:focus {
   border-color: var(--color-focus);
   box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+}
+
+/* Error state */
+.form__input.visited:invalid {
+  border-color: var(--color-error);
+}
+.form__input.visited:invalid:focus {
+  border-color: var(--color-error);
+  box-shadow: none;
+}
+
+.error-message {
+  color: var(--color-error);
+  font-size: var(--font-size-hint, 12px);
+  margin-top: 0.5rem;
+  font-weight: 500;
+  min-height: 1.5rem;
+  display: none;
+}
+
+.form__input.visited:invalid ~ .error-message {
+  display: block;
+}
+
+/* Password Hints */
+.password-hints {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  font-size: var(--font-size-hint, 12px);
+  color: var(--color-text-muted);
+  background: white;
+  border: 1px solid var(--color-border);
+  padding: 1rem;
+  z-index: 10;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-md);
+  margin-top: 0.5rem;
+  display: none;
+}
+
+.form__input:focus ~ .password-hints {
+  display: block;
+}
+
+.password-hints p {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: var(--font-size-hint, 12px);
+}
+
+.password-hints ul {
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+.password-hints li {
+  list-style-type: circle;
+}
+
+.password-hints li.valid {
+  color: var(--color-primary);
+  list-style-type: disc;
+}
+
+.password-hints li.invalid {
+  color: var(--color-text-muted);
 }
 
 /* =========================================
