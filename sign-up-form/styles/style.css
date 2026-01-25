@@ -58,43 +58,37 @@ ol[role='list'] {
    1. Design tokens
 ========================================= */
 
+@font-face {
+  font-family: 'Norse Bold';
+  src: url('../assets/Norse-Bold.otf') format('opentype');
+}
+
 :root {
   /* Colors */
-  --color-bg: #0d1117;
-  --color-surface: #161b22;
-  --color-border: #30363d;
-  --color-text: #c9d1d9;
-  --color-text-muted: #8b949e;
-  --color-primary: #00f0ff;
-  --color-primary-soft: rgba(0, 240, 255, 0.12);
-  --color-danger: #f85149;
+  --color-bg: #f9fafb;
+  --color-surface: #ffffff;
+  --color-border: #e5e7eb;
+  --color-text: #333333;
+  --color-text-muted: #555555;
+  --color-primary: #596d48;
+  --color-primary-hover: #4a5c3d;
+  --color-focus: #3b82f6;
+  --color-error: #ef4444;
+  --color-overlay: rgba(0, 0, 0, 0.5);
 
   /* Typography */
-  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
-  --font-heading: 'SFMono-Regular', Consolas, monospace;
-  --font-code: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-heading: 'Norse Bold', sans-serif;
 
-  --font-size-xs: 1.2rem;
-  --font-size-sm: 1.4rem;
   --font-size-base: 1.6rem;
-  --font-size-lg: 1.8rem;
-  --font-size-xl: 2.4rem;
-  --font-size-2xl: 3.2rem;
 
-  /* Spacing scale */
-  --space-2xs: 0.4rem;
-  --space-xs: 0.8rem;
-  --space-sm: 1.2rem;
-  --space-md: 1.6rem;
-  --space-lg: 2.4rem;
-  --space-xl: 3.2rem;
-  --space-2xl: 4.8rem;
-  --radius-sm: 0.4rem;
-  --radius-md: 0.8rem;
-  --radius-lg: 1.2rem;
-
-  /* Layout */
-  --max-width: 112rem; /* ~1120px */
+  /* Spacing & Sizes */
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 3rem;
+  --space-xl: 5rem;
+  --radius-md: 8px;
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 /* =========================================
@@ -106,89 +100,180 @@ body {
   font-size: var(--font-size-base);
   background-color: var(--color-bg);
   color: var(--color-text);
+  padding: 0;
+}
+
+/* Split Screen Layout */
+.split-screen {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: var(--space-lg);
-}
-
-/* Center a main container with a max-width */
-.main {
+  min-height: 100vh;
   width: 100%;
-  max-width: var(--max-width);
 }
 
-/* Headings */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin-bottom: var(--space-sm);
-  line-height: 1.2;
+/* Sidebar */
+.sidebar {
+  flex: 0 0 35%;
+  position: relative;
+  background-image: url('../assets/greenery-background.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.sidebar__logo-container {
+  margin-top: 15vh;
+  background-color: var(--color-overlay);
+  padding: 2rem 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.sidebar__logo-img {
+  height: 8rem;
+  width: auto;
+}
+
+.sidebar__logo-text {
   font-family: var(--font-heading);
-  font-weight: 600;
+  font-size: 8rem;
 }
 
-h1 {
-  font-size: var(--font-size-2xl);
+.sidebar__credit {
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
 }
 
-h2 {
-  font-size: var(--font-size-xl);
-}
-
-p {
-  font-size: var(--font-size-base);
-  color: var(--color-text);
-  margin-bottom: var(--space-sm);
-}
-
-/* Links */
-a {
-  color: var(--color-primary);
-  text-decoration: none;
-}
-
-a:hover {
+.sidebar__credit a {
+  color: white;
   text-decoration: underline;
 }
 
-/* Code / inline code */
-code,
-pre {
-  font-family: var(--font-code);
-}
-
-pre {
-  padding: var(--space-sm);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-surface);
-  overflow-x: auto;
+/* Main Content */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--color-bg);
 }
 
 /* =========================================
    3. Layout helpers
 ========================================= */
 
+.main__header {
+  padding: var(--space-xl) var(--space-xl) var(--space-md);
+  font-weight: 500;
+  max-width: 900px;
+}
+
+.main__header p {
+  margin-bottom: 1rem;
+}
+
+.main__form-container {
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-lg) var(--space-xl);
+  margin-bottom: var(--space-md);
+}
+
+.main__form-title {
+  margin-bottom: var(--space-md);
+  font-size: 2.4rem;
+}
+
+.main__footer {
+  padding: var(--space-md) var(--space-xl);
+}
+
 /* =========================================
    4. Forms
 ========================================= */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  max-width: 800px;
+}
+
+.form__row {
+  display: flex;
+  gap: var(--space-xl);
+}
+
+.form__group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.form__label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.form__input {
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0.8rem;
+  width: 100%;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.form__input:focus {
+  border-color: var(--color-focus);
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+}
 
 /* =========================================
    5. Footer
 ========================================= */
 
-footer {
-  margin-top: var(--space-xl);
-  padding: var(--space-sm);
-  text-align: center;
-  color: var(--color-text-muted);
+.btn--submit {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 1.2rem 4rem;
+  font-weight: bold;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 1.6rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-footer a {
+.btn--submit:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.main__login-text {
+  margin-top: 2rem;
+  font-size: 1.6rem;
+}
+
+.main__login-link {
   color: var(--color-primary);
+  font-weight: bold;
+}
+
+.main__login-link:hover {
+  text-decoration: underline;
 }
 
 /* =========================================
@@ -196,9 +281,6 @@ footer a {
 ========================================= */
 
 @media (max-width: 600px) {
-  body {
-    padding: var(--space-md);
-  }
 }
 
 @media (min-width: 768px) {
