@@ -4,30 +4,288 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Project title</title>
-  <meta name="description" content="Short description" />
+  <title>Admin Dashboard | Odin Project</title>
+  <meta name="description"
+    content="A comprehensive admin dashboard project for The Odin Project, built with CSS Grid." />
+
+  <!-- Google Fonts: Roboto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+
+  <!-- Material Design Icons CDN -->
   <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-    integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5JrjXdCqE8v5eD8AjtKq6HgMHpmwY1gXkM4Z5qX6L7q0P1w4d9T9d1xQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css">
+
+  <!-- Styles -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
   <link rel="stylesheet" href="styles/style.css" />
 </head>
 
 <body>
-  <header>
-    <h1 class="title">Project title</h1>
-  </header>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar__branding">
+        <span class="mdi mdi-view-dashboard sidebar__logo-icon"></span>
+        <h1 class="sidebar__title">Dashboard</h1>
+      </div>
 
-  <main>
-    <!-- Page content -->
-  </main>
+      <nav class="sidebar__nav">
+        <ul class="sidebar__list">
+          <li class="sidebar__item">
+            <a href="#" class="sidebar__link">
+              <span class="mdi mdi-home sidebar__icon"></span> Home
+            </a>
+          </li>
+          <li class="sidebar__item">
+            <a href="#" class="sidebar__link">
+              <span class="mdi mdi-card-account-details sidebar__icon"></span>
+              Profile
+            </a>
+          </li>
+          <li class="sidebar__item">
+            <a href="#" class="sidebar__link">
+              <span class="mdi mdi-message-reply sidebar__icon"></span> Messages
+            </a>
+          </li>
+          <li class="sidebar__item">
+            <a href="#" class="sidebar__link">
+              <span class="mdi mdi-history sidebar__icon"></span> History
+            </a>
+          </li>
+          <li class="sidebar__item">
+            <a href="#" class="sidebar__link">
+              <span class="mdi mdi-calendar-check sidebar__icon"></span> Tasks
+            </a>
+          </li>
+          <li class="sidebar__item">
+            <a href="#" class="sidebar__link">
+              <span class="mdi mdi-account-group sidebar__icon"></span>
+              Communities
+            </a>
+          </li>
+        </ul>
 
-  <footer>
-    <p>
-      Created by
-      <a href="https://github.com/sage-ali">sage-ali</a>
-    </p>
-  </footer>
+        <ul class="sidebar__list sidebar__list--secondary">
+          <li class="sidebar__item">
+            <a href="#" class="sidebar__link">
+              <span class="mdi mdi-cog sidebar__icon"></span> Settings
+            </a>
+          </li>
+          <li class="sidebar__item">
+            <a href="#" class="sidebar__link">
+              <span class="mdi mdi-help-circle sidebar__icon"></span> Support
+            </a>
+          </li>
+          <li class="sidebar__item">
+            <a href="#" class="sidebar__link">
+              <span class="mdi mdi-shield-check sidebar__icon"></span> Privacy
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <footer class="sidebar__footer">
+        <p>Created by <a href="https://github.com/sage-ali">sage-ali</a></p>
+      </footer>
+    </aside>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header__top-bar">
+        <div class="header__search">
+          <span class="mdi mdi-magnify header__search-icon"></span>
+          <input type="search" class="header__search-input"
+            placeholder="Search projects...">
+        </div>
+        <div class="header__user-actions">
+          <span class="mdi mdi-bell-ring-outline header__notif-icon"></span>
+          <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=sage-ali"
+            alt="User Avatar" class="header__avatar header__avatar--small">
+          <span class="header__user-name">Morgan Oakley</span>
+        </div>
+      </div>
+
+      <div class="header__bottom-bar">
+        <div class="header__welcome">
+          <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=sage-ali"
+            alt="User Avatar" class="header__avatar header__avatar--large">
+          <div class="header__greeting">
+            <span class="header__greeting-small">Hi there,</span>
+            <span class="header__greeting-large">Morgan Oakley (@morgan)</span>
+          </div>
+        </div>
+        <div class="header__buttons">
+          <button class="btn btn--primary">New</button>
+          <button class="btn btn--primary">Upload</button>
+          <button class="btn btn--primary">Share</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Projects Grid -->
+      <section class="projects">
+        <h2 class="main-content__title">Your Projects</h2>
+        <div class="projects__grid">
+          <!-- Project Card 1 -->
+          <article class="card">
+            <div class="card__content">
+              <h3 class="card__title">Super Cool Project</h3>
+              <p class="card__text">Sed tempus ut lacus ut scelerisque.
+                Suspendisse sollicitudin nibh erat, id facilisis felis accumsan
+                nec.</p>
+              <div class="card__actions">
+                <span class="mdi mdi-star-plus-outline card__icon"></span>
+                <span class="mdi mdi-eye-plus-outline card__icon"></span>
+                <span class="mdi mdi-share-variant-outline card__icon"></span>
+              </div>
+            </div>
+          </article>
+          <!-- Project Card 2 -->
+          <article class="card">
+            <div class="card__content">
+              <h3 class="card__title">Less Cool Project</h3>
+              <p class="card__text">Nullam condimentum ipsum ut lectus vehicula
+                consectetur. Quisque sed dolor tincidunt, consectetur sapien et,
+                facilisis dolor.</p>
+              <div class="card__actions">
+                <span class="mdi mdi-star-plus-outline card__icon"></span>
+                <span class="mdi mdi-eye-plus-outline card__icon"></span>
+                <span class="mdi mdi-share-variant-outline card__icon"></span>
+              </div>
+            </div>
+          </article>
+          <!-- Project Card 3 -->
+          <article class="card">
+            <div class="card__content">
+              <h3 class="card__title">Impossible App</h3>
+              <p class="card__text">In hac habitasse platea dictumst. Vivamus
+                dictum efficitur vestibulum. Mauris tristique sem sit amet
+                tristique.</p>
+              <div class="card__actions">
+                <span class="mdi mdi-star-plus-outline card__icon"></span>
+                <span class="mdi mdi-eye-plus-outline card__icon"></span>
+                <span class="mdi mdi-share-variant-outline card__icon"></span>
+              </div>
+            </div>
+          </article>
+          <!-- Project Card 4 -->
+          <article class="card">
+            <div class="card__content">
+              <h3 class="card__title">Ad Blocker</h3>
+              <p class="card__text">Curabitur pretium, libero vitae pharetra
+                bibendum, tellus purus accumsan, nec euismod orci elit ac nisl.
+              </p>
+              <div class="card__actions">
+                <span class="mdi mdi-star-plus-outline card__icon"></span>
+                <span class="mdi mdi-eye-plus-outline card__icon"></span>
+                <span class="mdi mdi-share-variant-outline card__icon"></span>
+              </div>
+            </div>
+          </article>
+          <!-- Project Card 5 -->
+          <article class="card">
+            <div class="card__content">
+              <h3 class="card__title">Money Maker</h3>
+              <p class="card__text">Phasellus efficitur eu lacus id congue.
+                Mauris ut diam quis sem cursus vehicula eget vel libero.</p>
+              <div class="card__actions">
+                <span class="mdi mdi-star-plus-outline card__icon"></span>
+                <span class="mdi mdi-eye-plus-outline card__icon"></span>
+                <span class="mdi mdi-share-variant-outline card__icon"></span>
+              </div>
+            </div>
+          </article>
+          <!-- Project Card 6 -->
+          <article class="card">
+            <div class="card__content">
+              <h3 class="card__title">Sky Net</h3>
+              <p class="card__text">Praesent convallis, libero quis congue
+                elementum, nunc ante faucibus tellus, ac scelerisque lorem ipsum
+                vel eros.</p>
+              <div class="card__actions">
+                <span class="mdi mdi-star-plus-outline card__icon"></span>
+                <span class="mdi mdi-eye-plus-outline card__icon"></span>
+                <span class="mdi mdi-share-variant-outline card__icon"></span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Sidebar Widgets -->
+      <aside class="widgets">
+        <!-- Announcements -->
+        <section class="announcements">
+          <h2 class="main-content__title">Announcements</h2>
+          <div class="widgets__container">
+            <article class="announcement">
+              <h4 class="announcement__title">Site Maintenance</h4>
+              <p class="announcement__text">Vestibulum condimentum tellus lacus,
+                in accumsan elit maximus ac.</p>
+            </article>
+            <hr class="widgets__divider">
+            <article class="announcement">
+              <h4 class="announcement__title">Community Share Day</h4>
+              <p class="announcement__text">Nam vel magna interdum, porta quam
+                id, dignissim eros.</p>
+            </article>
+            <hr class="widgets__divider">
+            <article class="announcement">
+              <h4 class="announcement__title">Updated Privacy Policy</h4>
+              <p class="announcement__text">Phasellus efficitur eu lacus id
+                congue. Mauris ut diam quis sem cursus.</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- Trending -->
+        <section class="trending">
+          <h2 class="main-content__title">Trending</h2>
+          <div class="widgets__container">
+            <div class="trending__user">
+              <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=tegan"
+                alt="Tegan" class="header__avatar header__avatar--small">
+              <div class="trending__info">
+                <span class="trending__handle">@tegan</span>
+                <span class="trending__desc">World Peace Builder</span>
+              </div>
+            </div>
+            <div class="trending__user">
+              <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=morgan"
+                alt="Morgan" class="header__avatar header__avatar--small">
+              <div class="trending__info">
+                <span class="trending__handle">@morgan</span>
+                <span class="trending__desc">Super Cool Project</span>
+              </div>
+            </div>
+            <div class="trending__user">
+              <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=kendall"
+                alt="Kendall" class="header__avatar header__avatar--small">
+              <div class="trending__info">
+                <span class="trending__handle">@kendall</span>
+                <span class="trending__desc">Life Changing App</span>
+              </div>
+            </div>
+            <div class="trending__user">
+              <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=alex"
+                alt="Alex" class="header__avatar header__avatar--small">
+              <div class="trending__info">
+                <span class="trending__handle">@alex</span>
+                <span class="trending__desc">No Traffic Maker</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </main>
+  </div>
 
   <script src="scripts/script.js"></script>
 </body>
