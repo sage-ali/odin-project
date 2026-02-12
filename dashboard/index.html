@@ -27,6 +27,10 @@
 
 <body>
   <div class="dashboard-container">
+    <button id="menu-toggle" class="menu-toggle" aria-label="Toggle Menu">
+      <span class="mdi mdi-menu"></span>
+      <span class="mdi mdi-close menu-toggle__icon--off"></span>
+    </button>
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar__branding">
@@ -38,34 +42,38 @@
         <ul class="sidebar__list">
           <li class="sidebar__item">
             <a href="#" class="sidebar__link">
-              <span class="mdi mdi-home sidebar__icon"></span> Home
+              <span class="mdi mdi-home sidebar__icon"></span>
+              <span class="sidebar__link-text">Home</span>
             </a>
           </li>
           <li class="sidebar__item">
             <a href="#" class="sidebar__link">
               <span class="mdi mdi-card-account-details sidebar__icon"></span>
-              Profile
+              <span class="sidebar__link-text">Profile</span>
             </a>
           </li>
           <li class="sidebar__item">
             <a href="#" class="sidebar__link">
-              <span class="mdi mdi-message-reply sidebar__icon"></span> Messages
+              <span class="mdi mdi-message-reply sidebar__icon"></span>
+              <span class="sidebar__link-text">Messages</span>
             </a>
           </li>
           <li class="sidebar__item">
             <a href="#" class="sidebar__link">
-              <span class="mdi mdi-history sidebar__icon"></span> History
+              <span class="mdi mdi-history sidebar__icon"></span>
+              <span class="sidebar__link-text">History</span>
             </a>
           </li>
           <li class="sidebar__item">
             <a href="#" class="sidebar__link">
-              <span class="mdi mdi-calendar-check sidebar__icon"></span> Tasks
+              <span class="mdi mdi-calendar-check sidebar__icon"></span>
+              <span class="sidebar__link-text">Tasks</span>
             </a>
           </li>
           <li class="sidebar__item">
             <a href="#" class="sidebar__link">
               <span class="mdi mdi-account-group sidebar__icon"></span>
-              Communities
+              <span class="sidebar__link-text">Communities</span>
             </a>
           </li>
         </ul>
@@ -73,17 +81,20 @@
         <ul class="sidebar__list sidebar__list--secondary">
           <li class="sidebar__item">
             <a href="#" class="sidebar__link">
-              <span class="mdi mdi-cog sidebar__icon"></span> Settings
+              <span class="mdi mdi-cog sidebar__icon"></span>
+              <span class="sidebar__link-text">Settings</span>
             </a>
           </li>
           <li class="sidebar__item">
             <a href="#" class="sidebar__link">
-              <span class="mdi mdi-help-circle sidebar__icon"></span> Support
+              <span class="mdi mdi-help-circle sidebar__icon"></span>
+              <span class="sidebar__link-text">Support</span>
             </a>
           </li>
           <li class="sidebar__item">
             <a href="#" class="sidebar__link">
-              <span class="mdi mdi-shield-check sidebar__icon"></span> Privacy
+              <span class="mdi mdi-shield-check sidebar__icon"></span>
+              <span class="sidebar__link-text">Privacy</span>
             </a>
           </li>
         </ul>
