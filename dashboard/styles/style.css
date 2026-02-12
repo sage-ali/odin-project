@@ -61,13 +61,13 @@ ol[role='list'] {
 :root {
   /* Colors - Dashboard Theme */
   --color-bg: #e2e8f0;
-  --color-sidebar: #1992d4;
+  --color-sidebar: #0c6999; /* Improved contrast for accessibility */
   --color-surface: #ffffff;
   --color-header: #ffffff;
   --color-border: #e2e8f0;
   --color-text: #000000;
   --color-text-muted: #475569;
-  --color-primary: #1992d4;
+  --color-primary: #0c6999; /* Darkened for better contrast */
   --color-primary-soft: #f0f9ff;
   --color-accent: #f59e0b; /* Orange accent */
 
@@ -668,5 +668,20 @@ footer a {
   .main-content {
     grid-template-columns: 3fr 1fr;
     align-items: start;
+  }
+}
+
+/* =========================================
+  7. Accessibility: Reduced Motion
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

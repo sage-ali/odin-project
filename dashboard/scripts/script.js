@@ -74,8 +74,10 @@ class TooltipManager {
 
   createTooltipElement() {
     const el = document.createElement('div');
+    el.id = `tooltip-${Math.random().toString(36).substr(2, 9)}`;
     el.className = 'tooltip';
     el.role = 'tooltip';
+    el.setAttribute('aria-hidden', 'true');
     el.innerHTML = '<span></span><div class="tooltip__arrow"></div>';
     document.body.appendChild(el);
     return el;
@@ -85,8 +87,8 @@ class TooltipManager {
     this.targets.forEach((target) => {
       target.addEventListener('mouseenter', () => this.show(target));
       target.addEventListener('focus', () => this.show(target));
-      target.addEventListener('mouseleave', () => this.hide());
-      target.addEventListener('blur', () => this.hide());
+      target.addEventListener('mouseleave', () => this.hide(target));
+      target.addEventListener('blur', () => this.hide(target));
     });
   }
 
@@ -101,6 +103,8 @@ class TooltipManager {
     if (!content) return;
 
     this.tooltipEl.querySelector('span').textContent = content;
+    target.setAttribute('aria-describedby', this.tooltipEl.id);
+    this.tooltipEl.setAttribute('aria-hidden', 'false');
 
     // Handle tooltip positioning
     const { x, y, placement, middlewareData } = await computePosition(target, this.tooltipEl, {
@@ -138,8 +142,12 @@ class TooltipManager {
     this.tooltipEl.classList.add('tooltip--visible');
   }
 
-  hide() {
+  hide(target) {
     this.tooltipEl.classList.remove('tooltip--visible');
+    this.tooltipEl.setAttribute('aria-hidden', 'true');
+    if (target) {
+      target.removeAttribute('aria-describedby');
+    }
   }
 }
 

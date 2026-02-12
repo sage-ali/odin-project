@@ -7,22 +7,46 @@
   <title>Admin Dashboard | Odin Project</title>
   <meta name="description"
     content="A comprehensive admin dashboard project for The Odin Project, built with CSS Grid." />
+  <meta name="theme-color" content="#0c6999" />
+
+  <!-- Open Graph / Social Media Meta Tags -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Admin Dashboard | Odin Project" />
+  <meta property="og:description"
+    content="A comprehensive admin dashboard project built with modern CSS Grid and modular JavaScript." />
+  <meta property="og:url" content="https://github.com/sage-ali" />
+
+  <!-- Structured Data: WebSite -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Admin Dashboard",
+      "url": "https://github.com/sage-ali"
+    }
+  </script>
 
   <!-- Google Fonts: Roboto -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.dicebear.com">
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
     rel="stylesheet">
 
-  <!-- Material Design Icons CDN -->
+  <!-- Material Design Icons CDN (Async to prevent render blocking) -->
   <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css">
+    href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css"
+    media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css">
+  </noscript>
 
   <!-- Styles -->
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
-  <link rel="stylesheet" href="styles/style.css" />
+  <link rel="stylesheet" href="styles/style.min.css" />
 </head>
 
 <body>
@@ -237,19 +261,19 @@
           <h2 class="main-content__title">Announcements</h2>
           <div class="widgets__container">
             <article class="announcement">
-              <h4 class="announcement__title">Site Maintenance</h4>
+              <h3 class="announcement__title">Site Maintenance</h3>
               <p class="announcement__text">Vestibulum condimentum tellus lacus,
                 in accumsan elit maximus ac.</p>
             </article>
             <hr class="widgets__divider">
             <article class="announcement">
-              <h4 class="announcement__title">Community Share Day</h4>
+              <h3 class="announcement__title">Community Share Day</h3>
               <p class="announcement__text">Nam vel magna interdum, porta quam
                 id, dignissim eros.</p>
             </article>
             <hr class="widgets__divider">
             <article class="announcement">
-              <h4 class="announcement__title">Updated Privacy Policy</h4>
+              <h3 class="announcement__title">Updated Privacy Policy</h3>
               <p class="announcement__text">Phasellus efficitur eu lacus id
                 congue. Mauris ut diam quis sem cursus.</p>
             </article>
@@ -298,7 +322,7 @@
     </main>
   </div>
 
-  <script type="module" src="scripts/script.js"></script>
+  <script type="module" src="scripts/script.min.js"></script>
 </body>
 
 </html>
