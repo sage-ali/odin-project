@@ -296,6 +296,33 @@ a:hover {
   color: white;
 }
 
+/* Tooltip container styling */
+.tooltip {
+  position: fixed;
+  background: #333;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  pointer-events: none;
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+.tooltip--visible {
+  opacity: 1;
+}
+
+.tooltip__arrow {
+  position: absolute;
+  background: #333;
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+}
+
 /* =========================================
   3.2 Header Styling
 ========================================= */

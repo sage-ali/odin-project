@@ -1,3 +1,5 @@
+import { computePosition, flip, shift, offset, arrow } from 'https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.7.4/+esm';
+
 /**
  * SidebarManager handles the mobile menu toggle logic.
  * Designed to be modular and reusable.
@@ -55,7 +57,94 @@ class SidebarManager {
   }
 }
 
+/**
+ * TooltipManager handles showing tooltips using Floating UI.
+ * Optimized for icon-only sidebars.
+ */
+class TooltipManager {
+  /**
+   * @param {string} targetSelector - Selector for elements that should show tooltips.
+   */
+  constructor(targetSelector) {
+    this.targets = document.querySelectorAll(targetSelector);
+    this.tooltipEl = this.createTooltipElement();
+    this.arrowEl = this.tooltipEl.querySelector('.tooltip__arrow');
+    this.init();
+  }
+
+  createTooltipElement() {
+    const el = document.createElement('div');
+    el.className = 'tooltip';
+    el.role = 'tooltip';
+    el.innerHTML = '<span></span><div class="tooltip__arrow"></div>';
+    document.body.appendChild(el);
+    return el;
+  }
+
+  init() {
+    this.targets.forEach((target) => {
+      target.addEventListener('mouseenter', () => this.show(target));
+      target.addEventListener('focus', () => this.show(target));
+      target.addEventListener('mouseleave', () => this.hide());
+      target.addEventListener('blur', () => this.hide());
+    });
+  }
+
+  async show(target) {
+    // Check if the link text is hidden (medium screen mode)
+    const textEl = target.querySelector('.sidebar__link-text');
+    if (textEl && window.getComputedStyle(textEl).display !== 'none') {
+      return; // Don't show tooltip if text is already visible
+    }
+
+    const content = target.getAttribute('data-tooltip');
+    if (!content) return;
+
+    this.tooltipEl.querySelector('span').textContent = content;
+
+    // Handle tooltip positioning
+    const { x, y, placement, middlewareData } = await computePosition(target, this.tooltipEl, {
+      placement: 'right',
+      middleware: [
+        offset(15), // Gap between icon and tooltip
+        flip(),
+        shift({ padding: 5 }),
+        arrow({ element: this.arrowEl })
+      ]
+    });
+
+    Object.assign(this.tooltipEl.style, {
+      left: `${x}px`,
+      top: `${y}px`
+    });
+
+    // Handle arrow positioning
+    const { x: arrowX, y: arrowY } = middlewareData.arrow;
+    const staticSide = {
+      top: 'bottom',
+      right: 'left',
+      bottom: 'top',
+      left: 'right'
+    }[placement.split('-')[0]];
+
+    Object.assign(this.arrowEl.style, {
+      left: arrowX != null ? `${arrowX}px` : '',
+      top: arrowY != null ? `${arrowY}px` : '',
+      right: '',
+      bottom: '',
+      [staticSide]: '-4px' // Half of arrow size (8px)
+    });
+
+    this.tooltipEl.classList.add('tooltip--visible');
+  }
+
+  hide() {
+    this.tooltipEl.classList.remove('tooltip--visible');
+  }
+}
+
 // Initialize components when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   new SidebarManager('.sidebar', '#menu-toggle');
+  new TooltipManager('.sidebar__link');
 });
