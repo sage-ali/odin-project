@@ -55,5 +55,8 @@ console.log(myLibrary)
 
 // Initialize Application
 document.addEventListener('DOMContentLoaded', () => {
-
+let diag = document.querySelector('dialog');
+setTimeout(()=>{
+diag.showModal()
+}, 5000)
 });
