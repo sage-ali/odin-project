@@ -45,18 +45,4 @@ export class Library {
   }
 }
 
-// Initial sample books for testing
-const myLibrary = new Library();
-myLibrary.addBook('The Hobbit', 'J.R.R. Tolkien', 310, true);
-myLibrary.addBook('Project Hail Mary', 'Andy Weir', 476, false);
-myLibrary.addBook('The Great Gatsby', 'F. Scott Fitzgerald', 180, true);
 
-console.log(myLibrary)
-
-// Initialize Application
-document.addEventListener('DOMContentLoaded', () => {
-let diag = document.querySelector('dialog');
-setTimeout(()=>{
-diag.showModal()
-}, 5000)
-});
