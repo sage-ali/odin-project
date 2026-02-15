@@ -1,6 +1,6 @@
 (()=>{var g=class{constructor(e,t,o,a){this.id=crypto.randomUUID(),this.title=e,this.author=t,this.pages=o,this.read=a}toggleReadStatus(){this.read=!this.read}},c=class{constructor(){this.books=[]}addBook(e,t,o,a){let s=new g(e,t,o,a);return this.books.push(s),s}removeBook(e){this.books=this.books.filter(t=>t.id!==e)}getBooks(){return this.books}toggleBookStatus(e){let t=this.books.find(o=>o.id===e);return t&&t.toggleReadStatus(),t}};var l=class{constructor(e,t){this.library=e,this.grid=document.getElementById(t)}render(){this.grid.innerHTML="",this.library.getBooks().forEach(t=>{let o=this.createBookCard(t);this.grid.appendChild(o)})}addBookToUI(e){let t=this.createBookCard(e);t.classList.add("book-card--adding"),this.grid.appendChild(t),requestAnimationFrame(()=>{requestAnimationFrame(()=>{t.classList.remove("book-card--adding")})})}createBookCard(e){let t=document.createElement("article");t.classList.add("book-card"),t.dataset.id=e.id,t.innerHTML=`
       <div class="book-card__content">
-        <h3 class="book-card__title">${e.title}</h3>
+        <h2 class="book-card__title">${e.title}</h2>
         <p class="book-card__author">by ${e.author}</p>
         <p class="book-card__pages">${e.pages} pages</p>
         <div class="book-card__status ${e.read?"book-card__status--read":""}">

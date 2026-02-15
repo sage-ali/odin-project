@@ -41,7 +41,7 @@ export class UIController {
     // Visual Hierarchy
     article.innerHTML = `
       <div class="book-card__content">
-        <h3 class="book-card__title">${book.title}</h3>
+        <h2 class="book-card__title">${book.title}</h2>
         <p class="book-card__author">by ${book.author}</p>
         <p class="book-card__pages">${book.pages} pages</p>
         <div class="book-card__status ${book.read ? 'book-card__status--read' : ''}">
