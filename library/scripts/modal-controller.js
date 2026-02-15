@@ -17,12 +17,7 @@ export class ModalController {
     // Close on outside click (backdrop)
     this.dialog.addEventListener('click', (e) => {
       const dialogDimensions = this.dialog.getBoundingClientRect();
-      if (
-        e.clientX < dialogDimensions.left ||
-        e.clientX > dialogDimensions.right ||
-        e.clientY < dialogDimensions.top ||
-        e.clientY > dialogDimensions.bottom
-      ) {
+      if (e.clientX < dialogDimensions.left || e.clientX > dialogDimensions.right || e.clientY < dialogDimensions.top || e.clientY > dialogDimensions.bottom) {
         this.close();
       }
     });

@@ -10,14 +10,13 @@ myLibrary.addBook('The Great Gatsby', 'F. Scott Fitzgerald', 180, true);
 
 // Initialize Application
 document.addEventListener('DOMContentLoaded', () => {
+  const ui = new UIController(myLibrary, 'book-grid');
+  const modal = new ModalController('book-dialog', 'add-book-btn', 'cancel-btn');
 
-const ui = new UIController(myLibrary, 'book-grid');
-const modal = new ModalController('book-dialog', 'add-book-btn', 'cancel-btn');
+  // Initial Render
+  ui.render();
 
-// Initial Render
-ui.render();
-
-// Form Submission
+  // Form Submission
   const bookForm = document.getElementById('book-form');
   bookForm.addEventListener('submit', (e) => {
     e.preventDefault();

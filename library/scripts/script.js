@@ -45,5 +45,3 @@ export class Library {
     return book;
   }
 }
-
-
