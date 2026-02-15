@@ -221,6 +221,22 @@ pre {
   justify-content: space-between;
   position: relative;
   overflow: hidden;
+  max-height: 1000px;
+  min-width: 28rem;
+  margin: 0;
+  /* Hint for browser optimization */
+  will-change: transform, opacity, max-height;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    opacity 0.3s ease,
+    max-height 0.5s ease 0.1s,
+    margin 0.5s ease,
+    padding 0.5s ease,
+    width 0.4s ease 0.1s,
+    min-width 0.4s ease 0.1s,
+    border-width 0.4s ease 0.1s;
+  animation: cardEntry 0.5s ease-out forwards;
 }
 
 .book-card::before {
@@ -230,7 +246,31 @@ pre {
   top: 0;
   bottom: 0;
   width: 4px;
-  background-color: var(--color-text-muted);
+  background-color: var(--color-text-muted, #666);
+  transition: background-color 0.3s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.book-card--adding {
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  animation: none; /* Disable cardEntry when dynamically adding */
+}
+
+.book-card--removing {
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.8);
+  max-height: 0;
+  width: 0 !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-width: 0 !important;
 }
 
 .book-card__title {
@@ -257,6 +297,9 @@ pre {
   font-weight: 600;
   background-color: var(--color-primary-soft);
   color: var(--color-text-muted);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .book-card__status--read {
@@ -285,6 +328,13 @@ pre {
   align-items: center;
   justify-content: center;
   gap: var(--space-2xs);
+  transition:
+    filter 0.2s ease,
+    transform 0.1s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
 }
 
 .btn--primary {
@@ -292,21 +342,39 @@ pre {
   color: var(--color-bg);
 }
 
-.btn--secondary {
-  background-color: transparent;
-  color: var(--color-text);
-  border: 1px solid var(--color-border);
+.btn--primary:hover {
+  filter: brightness(1.1);
 }
 
 .btn--secondary {
   background-color: transparent;
   color: var(--color-text);
   border: 1px solid var(--color-border);
+}
+
+.btn--secondary:hover {
+  background-color: var(--color-border);
+}
+
+.btn--toggle {
+  flex: 1;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.btn--toggle:hover {
+  background-color: var(--color-border);
 }
 
 .btn--danger {
   background-color: transparent;
   color: var(--color-text-muted);
+}
+
+.btn--danger:hover {
+  color: var(--color-danger);
+  background-color: rgba(248, 81, 73, 0.1);
 }
 
 /* =========================================
@@ -407,7 +475,55 @@ footer a {
 }
 
 /* =========================================
-   6. Responsive tweaks
+   6. Animations
+========================================= */
+@media (prefers-reduced-motion: reduce) {
+  .book-card,
+  .btn,
+  .book-card__status {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@keyframes cardEntry {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* View Transition Animations */
+
+/* Custom animation for the removing card */
+::view-transition-old(removing-card) {
+  animation: 0.4s cubic-bezier(0.4, 0, 0.2, 1) both slide-out-fade;
+}
+
+/* Ensure the grid updates smoothly as cards move to fill gaps */
+::view-transition-group(*) {
+  /* Slower, smoother movement for re-flowing cards */
+  animation-duration: 0.7s;
+  animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes slide-out-fade {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8) translateY(30px);
+  }
+}
+
+/* =========================================
+   7. Responsive tweaks
 ========================================= */
 
 @media (min-width: 380px) {

@@ -42,6 +42,7 @@ export class Library {
     if (book) {
       book.toggleReadStatus();
     }
+    return book;
   }
 }
 

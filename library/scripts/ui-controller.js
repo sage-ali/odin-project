@@ -17,6 +17,22 @@ export class UIController {
     });
   }
 
+  addBookToUI(book) {
+    const card = this.createBookCard(book);
+
+    // Add entry class and append
+    card.classList.add('book-card--adding');
+    this.grid.appendChild(card);
+
+    // Trigger entry animation by removing the class in the next frame
+    // Double requestAnimationFrame ensures the browser has rendered the initial state
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        card.classList.remove('book-card--adding');
+      });
+    });
+  }
+
   createBookCard(book) {
     const article = document.createElement('article');
     article.classList.add('book-card');
@@ -47,16 +63,46 @@ export class UIController {
     const removeBtn = article.querySelector('.btn--danger');
 
     toggleBtn.addEventListener('click', () => {
-      this.library.toggleBookStatus(book.id);
-      this.render();
+      const updatedBook = this.library.toggleBookStatus(book.id);
+      const statusTag = article.querySelector('.book-card__status');
+
+      statusTag.classList.toggle('book-card__status--read', updatedBook.read);
+
+      statusTag.textContent = updatedBook.read ? 'Read' : 'Not Read';
+      toggleBtn.textContent = updatedBook.read ? 'Mark Unread' : 'Mark Read';
     });
 
     removeBtn.addEventListener('click', () => {
-      article.classList.add('book-card--removing');
-      article.addEventListener('transitionend', () => {
-        this.library.removeBook(book.id);
-        this.render();
-      }, { once: true });
+      if (false) {
+        // Assign a temporary name for the transition
+        article.style.viewTransitionName = 'removing-card';
+
+        document.startViewTransition(() => {
+          this.library.removeBook(book.id);
+          article.remove();
+        });
+      } else {
+        // Fallback for browsers without View Transitions
+        const cleanup = () => {
+          this.library.removeBook(book.id);
+          article.remove();
+        };
+
+        article.classList.add('book-card--removing');
+        article.replaceChildren();
+
+        // Use transitionend with a timeout safety to ensure cleanup runs
+        let cleaned = false;
+        const handleCleanup = () => {
+          if (cleaned) return;
+          cleaned = true;
+          cleanup();
+        };
+
+        article.addEventListener('transitionend', handleCleanup, { once: true });
+        // Safety timeout slightly longer than the transition (0.5s)
+        setTimeout(handleCleanup, 600);
+      }
     });
 
     return article;

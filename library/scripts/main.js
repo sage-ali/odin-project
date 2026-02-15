@@ -27,8 +27,7 @@ ui.render();
     const pages = formData.get('pages');
     const read = formData.get('read') === 'on';
 
-    myLibrary.addBook(title, author, pages, read);
-    ui.render();
     modal.close();
+    ui.addBookToUI(myLibrary.addBook(title, author, pages, read));
   });
 });
