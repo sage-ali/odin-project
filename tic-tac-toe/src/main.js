@@ -1,4 +1,2 @@
 // Initialize Application
-document.addEventListener('DOMContentLoaded', () => {
-
-});
+document.addEventListener("DOMContentLoaded", () => {});
