@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Production build
+dist/
+build/
+*.min.css
+*.min.js
+library/scripts/bundle.js
+library/scripts/bundle.js.map
+dashboard/scripts/script.min.js
+dashboard/styles/style.min.css
+library/styles/style.min.css
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Editor directories and files
+.idea
+.vscode/
+*.suo
+*.ntvs
+*.njsproj
+*.sln
+*.sw?
