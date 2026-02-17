@@ -41,6 +41,7 @@ export default [
       "import/prefer-default-export": "off",
       "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
       "import/no-unresolved": "off",
+      "import/extensions": ["error", "ignorePackages", { js: "always" }],
       "no-underscore-dangle": ["error", { allow: ["__filename", "__dirname"] }],
     },
     settings: {
