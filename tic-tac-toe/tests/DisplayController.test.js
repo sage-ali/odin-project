@@ -12,17 +12,35 @@ vi.mock("../src/GameController.js", () => ({
     })),
     resetGame: vi.fn(),
     setPlayerNames: vi.fn(),
+    isGameOver: vi.fn(() => false),
+    getWinner: vi.fn(() => null),
   },
 }));
 
 describe("DisplayController", () => {
   beforeEach(() => {
+    // Mock dialog methods since JSDOM doesn't support them
+    HTMLDialogElement.prototype.showModal = vi.fn();
+    HTMLDialogElement.prototype.close = vi.fn();
+
     // Setup initial DOM structure
     document.body.innerHTML = `
       <div id="board" class="board"></div>
       <p id="turn-indicator"></p>
+      <dialog id="game-over-dialog">
+        <h2 id="result-text"></h2>
+        <button id="restart-game-btn"></button>
+      </dialog>
+      <dialog id="start-dialog">
+        <form id="start-form">
+          <input id="player-x-name" value="Alice" />
+          <input id="player-o-name" value="Bob" />
+          <button type="submit" id="start-game-btn"></button>
+        </form>
+      </dialog>
     `;
     Gameboard.resetBoard();
+    vi.clearAllMocks();
   });
 
   it("should be defined", () => {
@@ -49,7 +67,6 @@ describe("DisplayController", () => {
   });
 
   it("should update the turn indicator text", () => {
-    // Mocking a turn change (logic is in GameController, but Display handles visuals)
     const mockPlayer = { getName: () => "Alice", getSymbol: () => "X" };
     DisplayController.updateTurnInfo(mockPlayer);
 
@@ -57,21 +74,35 @@ describe("DisplayController", () => {
     expect(indicator.textContent).toContain("Alice");
   });
 
-  describe("Interactions", () => {
-    beforeEach(() => {
-      document.body.innerHTML = `
-        <div id="board" class="board"></div>
-        <p id="turn-indicator"></p>
-        <dialog id="start-dialog">
-          <form id="start-form">
-            <input id="player-x-name" value="Alice" />
-            <input id="player-o-name" value="Bob" />
-            <button type="submit" id="start-game-btn">Start</button>
-          </form>
-        </dialog>
-      `;
-    });
+  it("should show game over dialog on win", () => {
+    GameController.isGameOver.mockReturnValue(true);
+    const mockWinner = { getName: () => "Alice", getSymbol: () => "X" };
+    GameController.getWinner.mockReturnValue(mockWinner);
 
+    const gameOverDialog = document.getElementById("game-over-dialog");
+    const resultText = document.getElementById("result-text");
+
+    DisplayController.render();
+
+    expect(gameOverDialog.showModal).toHaveBeenCalled();
+    expect(resultText.textContent).toContain("Alice Wins!");
+  });
+
+  it("should show game over dialog on tie", () => {
+    GameController.isGameOver.mockReturnValue(true);
+    GameController.getWinner.mockReturnValue(null);
+
+    const gameOverDialog = document.getElementById("game-over-dialog");
+
+    const resultText = document.getElementById("result-text");
+
+    DisplayController.render();
+
+    expect(gameOverDialog.showModal).toHaveBeenCalled();
+    expect(resultText.textContent).toContain("Tie");
+  });
+
+  describe("Interactions", () => {
     it("should call GameController.playRound when a cell is clicked", () => {
       DisplayController.init();
       DisplayController.render();
@@ -79,7 +110,7 @@ describe("DisplayController", () => {
       const firstCell = document.querySelector(".cell");
       firstCell.click();
 
-      expect(GameController.playRound).toHaveBeenCalledWith("0"); // dataset index is string
+      expect(GameController.playRound).toHaveBeenCalledWith("0");
     });
 
     it("should use event delegation on the board container", () => {
@@ -99,9 +130,6 @@ describe("DisplayController", () => {
       const form = document.getElementById("start-form");
       const startDialog = document.getElementById("start-dialog");
 
-      // Mock dialog close
-      startDialog.close = vi.fn();
-
       form.dispatchEvent(
         new Event("submit", { cancelable: true, bubbles: true }),
       );
@@ -111,6 +139,17 @@ describe("DisplayController", () => {
         "Bob",
       );
       expect(startDialog.close).toHaveBeenCalled();
+    });
+
+    it("should handle restart game button click", () => {
+      DisplayController.init();
+      const restartBtn = document.getElementById("restart-game-btn");
+      const gameOverDialog = document.getElementById("game-over-dialog");
+
+      restartBtn.click();
+
+      expect(GameController.resetGame).toHaveBeenCalled();
+      expect(gameOverDialog.close).toHaveBeenCalled();
     });
   });
 });

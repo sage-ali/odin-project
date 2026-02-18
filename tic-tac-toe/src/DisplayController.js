@@ -38,6 +38,23 @@ const DisplayController = (() => {
 
       boardContainer.appendChild(cell);
     });
+
+    // Check for Game Over
+    if (GameController.isGameOver()) {
+      const gameOverDialog = document.getElementById("game-over-dialog");
+      const resultText = document.getElementById("result-text");
+      const winner = GameController.getWinner();
+
+      if (resultText) {
+        resultText.textContent = winner
+          ? `${winner.getName()} Wins!`
+          : "It's a Tie!";
+      }
+
+      if (gameOverDialog && !gameOverDialog.open) {
+        gameOverDialog.showModal();
+      }
+    }
   };
 
   /**
@@ -59,6 +76,8 @@ const DisplayController = (() => {
       document.getElementById("start-form") ||
       document.querySelector("#start-dialog form");
     const startDialog = document.getElementById("start-dialog");
+    const restartBtn = document.getElementById("restart-game-btn");
+    const gameOverDialog = document.getElementById("game-over-dialog");
 
     if (boardContainer) {
       boardContainer.addEventListener("click", (e) => {
@@ -67,9 +86,11 @@ const DisplayController = (() => {
 
         const { index } = cell.dataset;
         if (index !== undefined) {
-          GameController.playRound(index);
-          render();
-          updateTurnInfo(GameController.getActivePlayer());
+          const success = GameController.playRound(index);
+          if (success) {
+            render();
+            updateTurnInfo(GameController.getActivePlayer());
+          }
         }
       });
     }
@@ -86,6 +107,17 @@ const DisplayController = (() => {
           startDialog.close();
         }
 
+        render();
+        updateTurnInfo(GameController.getActivePlayer());
+      });
+    }
+
+    if (restartBtn) {
+      restartBtn.addEventListener("click", () => {
+        GameController.resetGame();
+        if (gameOverDialog) {
+          gameOverDialog.close();
+        }
         render();
         updateTurnInfo(GameController.getActivePlayer());
       });
