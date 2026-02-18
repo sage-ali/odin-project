@@ -6,7 +6,7 @@ import Player from "./Player.js";
  * Manages the game flow, turns, and win detection.
  */
 const GameController = (() => {
-  const players = [Player("Player X", "X"), Player("Player O", "O")];
+  let players = [Player("Player X", "X"), Player("Player O", "O")];
 
   let activePlayer = players[0];
   let isGameOverState = false;
@@ -88,6 +88,16 @@ const GameController = (() => {
   const getWinner = () => winner;
 
   /**
+   * Updates the names of the players.
+   * @param {string} name1 - Name for Player X.
+   * @param {string} name2 - Name for Player O.
+   */
+  const setPlayerNames = (name1, name2) => {
+    players = [Player(name1, "X"), Player(name2, "O")];
+    [activePlayer] = players;
+  };
+
+  /**
    * Resets the game state.
    */
   const resetGame = () => {
@@ -98,6 +108,7 @@ const GameController = (() => {
   };
 
   return {
+    setPlayerNames,
     playRound,
     getActivePlayer,
     checkWin,

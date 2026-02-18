@@ -152,4 +152,13 @@ describe("GameController Flow", () => {
     GameController.playRound(5); // Attempt O move
     expect(Gameboard.getBoard()[5]).toBe(null); // Move not registered
   });
+
+  it("should allow setting custom player names", () => {
+    GameController.setPlayerNames("Alice", "Bob");
+    expect(GameController.getActivePlayer().getName()).toBe("Alice");
+
+    // Play a round to switch to next player
+    GameController.playRound(0);
+    expect(GameController.getActivePlayer().getName()).toBe("Bob");
+  });
 });
