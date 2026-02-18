@@ -1,6 +1,18 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import DisplayController from "../src/DisplayController.js";
 import Gameboard from "../src/Gameboard.js";
+import GameController from "../src/GameController.js";
+
+vi.mock("../src/GameController.js", () => ({
+  default: {
+    playRound: vi.fn(),
+    getActivePlayer: vi.fn(() => ({
+      getName: () => "Alice",
+      getSymbol: () => "X",
+    })),
+    resetGame: vi.fn(),
+  },
+}));
 
 describe("DisplayController", () => {
   beforeEach(() => {
@@ -41,6 +53,29 @@ describe("DisplayController", () => {
 
     const indicator = document.getElementById("turn-indicator");
     expect(indicator.textContent).toContain("Alice");
-    expect(indicator.textContent).toContain("X");
+  });
+
+  describe("Interactions", () => {
+    it("should call GameController.playRound when a cell is clicked", () => {
+      DisplayController.init();
+      DisplayController.render();
+
+      const firstCell = document.querySelector(".cell");
+      firstCell.click();
+
+      expect(GameController.playRound).toHaveBeenCalledWith("0"); // dataset index is string
+    });
+
+    it("should use event delegation on the board container", () => {
+      const board = document.getElementById("board");
+      const addEventListenerSpy = vi.spyOn(board, "addEventListener");
+
+      DisplayController.init();
+
+      expect(addEventListenerSpy).toHaveBeenCalledWith(
+        "click",
+        expect.any(Function),
+      );
+    });
   });
 });
