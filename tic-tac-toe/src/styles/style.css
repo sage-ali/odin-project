@@ -95,6 +95,41 @@ ol[role='list'] {
 
   /* Layout */
   --max-width: 112rem; /* ~1120px */
+
+  /* Project Specific */
+  --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-neumorphic: 5px 5px 10px #d1d9e6, -5px -5px 10px #ffffff;
+
+  --marker-x-color: #ff4757;
+  --marker-o-color: #2ed573;
+}
+
+/* Auto-detect Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #18191a;
+    --color-text: #e4e6eb;
+    --color-surface: #242526;
+    --color-border: #3a3b3c;
+    --shadow-neumorphic: 5px 5px 10px #121212, -5px -5px 10px #2a2a2a;
+  }
+}
+
+/* Manual Overrides */
+body.light-theme {
+  --color-bg: #f0f2f5;
+  --color-text: #1a1a1b;
+  --color-surface: #ffffff;
+  --color-border: #e4e6eb;
+  --shadow-neumorphic: 5px 5px 10px #d1d9e6, -5px -5px 10px #ffffff;
+}
+
+body.dark-theme {
+  --color-bg: #18191a;
+  --color-text: #e4e6eb;
+  --color-surface: #242526;
+  --color-border: #3a3b3c;
+  --shadow-neumorphic: 5px 5px 10px #121212, -5px -5px 10px #2a2a2a;
 }
 
 /* =========================================
@@ -109,7 +144,11 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--space-lg);
+  padding: 0 var(--space-lg);
+  min-height: 100vh;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* Center a main container with a max-width */
@@ -168,20 +207,174 @@ pre {
   overflow-x: auto;
 }
 
-/* =========================================
-   3. Layout helpers
-========================================= */
+header {
+  padding: var(--space-md);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.header-content {
+  width: min(95vw, 450px);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.header-content .title {
+  flex-basis: 80%;
+  text-align: center;
+  margin: 0;
+}
 
 /* =========================================
-   4. Forms
+   3. Game Board (The Grid)
 ========================================= */
+
+#game-container {
+  width: min(75vw, 360px);
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: var(--space-md);
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-border);
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.cell {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-neumorphic);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  position: relative;
+}
+
+.cell:hover {
+  transform: translateY(-2px);
+}
+
+.cell:active {
+  transform: translateY(0);
+}
+
+/* =========================================
+   4. HUD, Scoreboard & Dialogs
+========================================= */
+
+.hud {
+  font-weight: 600;
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-md);
+}
+
+.scoreboard {
+  display: flex;
+  gap: var(--space-md);
+  width: min(95vw, 450px);
+  justify-content: space-around;
+  margin-top: var(--space-lg);
+}
+
+.score-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-surface);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  flex: 1;
+}
+
+.score-item .label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+.score-item .value {
+  font-size: var(--font-size-xl);
+  font-weight: bold;
+}
+
+dialog {
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  margin: auto;
+  width: min(90vw, 40rem);
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+}
+
+.input-group {
+  margin: var(--space-lg) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+input[type="text"] {
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+  font-weight: 600;
+  transition: filter 0.2s ease;
+}
+
+button:hover {
+  filter: brightness(1.1);
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
 
 /* =========================================
    5. Footer
 ========================================= */
 
 footer {
-  margin-top: var(--space-xl);
+  margin-top: var(--space-md);
   padding: var(--space-sm);
   text-align: center;
   color: var(--color-text-muted);
@@ -189,6 +382,76 @@ footer {
 
 footer a {
   color: var(--color-primary);
+}
+
+/* =========================================
+   5. Theme Toggle
+========================================= */
+
+.theme-toggle {
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-border);
+  padding: 0; /* Reset generic button padding */
+  cursor: pointer;
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-soft);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  border-color: var(--color-primary);
+}
+
+.toggle-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  gap: 2rem;
+  height: 100%;
+}
+
+.theme-toggle svg {
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
+  display: block;
+  flex-shrink: 0;
+  color: var(--color-text);
+}
+
+/* Light Theme (Default): Show Sun at index 0 */
+body.light-theme .toggle-container {
+  transform: translateY(2.2rem);
+}
+
+/* Dark Theme: Slide to Moon at index 1 */
+body.dark-theme .toggle-container {
+  transform: translateY(-2.2rem);
+}
+
+/* Smooth transition for all color changes */
+body,
+body *,
+body *::before,
+body *::after {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 /* =========================================
