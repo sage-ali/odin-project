@@ -96,3 +96,60 @@ describe("GameController Win Logic", () => {
     expect(measure.duration).toBeLessThan(0.5); // Win check should be sub-millisecond
   });
 });
+
+describe("GameController Flow", () => {
+  beforeEach(() => {
+    Gameboard.resetBoard();
+    GameController.resetGame();
+  });
+
+  it("should start with Player X as the active player", () => {
+    expect(GameController.getActivePlayer().getSymbol()).toBe("X");
+  });
+
+  it("should switch turns after a valid move", () => {
+    GameController.playRound(0); // Player X move
+    expect(GameController.getActivePlayer().getSymbol()).toBe("O");
+    GameController.playRound(1); // Player O move
+    expect(GameController.getActivePlayer().getSymbol()).toBe("X");
+  });
+
+  it("should not switch turns if the move is invalid", () => {
+    GameController.playRound(0); // X moves to 0
+    expect(GameController.getActivePlayer().getSymbol()).toBe("O");
+    GameController.playRound(0); // O tries to move to 0 (invalid)
+    expect(GameController.getActivePlayer().getSymbol()).toBe("O");
+  });
+
+  it("should detect a tie when the board is full", () => {
+    const moves = [0, 1, 2, 5, 3, 6, 4, 8, 7];
+    moves.forEach((move) => GameController.playRound(move));
+
+    expect(GameController.checkWin()).toBe(false);
+    expect(GameController.isGameOver()).toBe(true);
+    expect(GameController.getWinner()).toBe(null); // It's a tie
+  });
+
+  it("should identify the winner after a win", () => {
+    GameController.playRound(0); // X
+    GameController.playRound(3); // O
+    GameController.playRound(1); // X
+    GameController.playRound(4); // O
+    GameController.playRound(2); // X (Wins)
+
+    expect(GameController.isGameOver()).toBe(true);
+    expect(GameController.getWinner().getSymbol()).toBe("X");
+  });
+
+  it("should prevent further moves after the game is over", () => {
+    GameController.playRound(0); // X
+    GameController.playRound(3); // O
+    GameController.playRound(1); // X
+    GameController.playRound(4); // O
+    GameController.playRound(2); // X (Wins)
+
+    expect(GameController.getActivePlayer().getSymbol()).toBe("O"); // Turn stopped swapping
+    GameController.playRound(5); // Attempt O move
+    expect(Gameboard.getBoard()[5]).toBe(null); // Move not registered
+  });
+});
