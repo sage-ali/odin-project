@@ -11,6 +11,7 @@ vi.mock("../src/GameController.js", () => ({
       getSymbol: () => "X",
     })),
     resetGame: vi.fn(),
+    setPlayerNames: vi.fn(),
   },
 }));
 
@@ -41,9 +42,10 @@ describe("DisplayController", () => {
     DisplayController.render();
 
     const cells = document.querySelectorAll(".cell");
-    expect(cells[0].textContent).toBe("X");
-    expect(cells[4].textContent).toBe("O");
-    expect(cells[1].textContent).toBe("");
+    expect(cells[0].querySelector("svg")).toBeTruthy();
+    expect(cells[0].querySelector(".mark-x")).toBeTruthy();
+    expect(cells[4].querySelector(".mark-o")).toBeTruthy();
+    expect(cells[1].innerHTML).toBe("");
   });
 
   it("should update the turn indicator text", () => {
@@ -56,6 +58,20 @@ describe("DisplayController", () => {
   });
 
   describe("Interactions", () => {
+    beforeEach(() => {
+      document.body.innerHTML = `
+        <div id="board" class="board"></div>
+        <p id="turn-indicator"></p>
+        <dialog id="start-dialog">
+          <form id="start-form">
+            <input id="player-x-name" value="Alice" />
+            <input id="player-o-name" value="Bob" />
+            <button type="submit" id="start-game-btn">Start</button>
+          </form>
+        </dialog>
+      `;
+    });
+
     it("should call GameController.playRound when a cell is clicked", () => {
       DisplayController.init();
       DisplayController.render();
@@ -76,6 +92,25 @@ describe("DisplayController", () => {
         "click",
         expect.any(Function),
       );
+    });
+
+    it("should handle start game dialog submission", () => {
+      DisplayController.init();
+      const form = document.getElementById("start-form");
+      const startDialog = document.getElementById("start-dialog");
+
+      // Mock dialog close
+      startDialog.close = vi.fn();
+
+      form.dispatchEvent(
+        new Event("submit", { cancelable: true, bubbles: true }),
+      );
+
+      expect(GameController.setPlayerNames).toHaveBeenCalledWith(
+        "Alice",
+        "Bob",
+      );
+      expect(startDialog.close).toHaveBeenCalled();
     });
   });
 });
