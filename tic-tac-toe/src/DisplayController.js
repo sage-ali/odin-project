@@ -23,7 +23,22 @@ const DisplayController = (() => {
       const cell = document.createElement("div");
       cell.classList.add("cell");
       cell.dataset.index = index;
-      cell.textContent = marker || "";
+
+      if (marker === "X") {
+        cell.innerHTML = `
+          <svg viewBox="0 0 24 24" class="mark mark-x">
+            <path d="M 5,5 L 19,19" />
+            <path d="M 19,5 L 5,19" />
+          </svg>
+        `;
+      } else if (marker === "O") {
+        cell.innerHTML = `
+          <svg viewBox="0 0 24 24" class="mark mark-o">
+            <circle cx="12" cy="12" r="8" />
+          </svg>
+        `;
+      }
+
       boardContainer.appendChild(cell);
     });
   };
