@@ -35,7 +35,7 @@ const DisplayController = (() => {
     if (cells.length === 0) {
       boardContainer.innerHTML = "";
       for (let i = 0; i < 9; i += 1) {
-        const cell = document.createElement("div");
+        const cell = document.createElement("button");
         cell.classList.add("cell");
         cell.dataset.index = i;
         boardContainer.appendChild(cell);
@@ -53,20 +53,26 @@ const DisplayController = (() => {
 
         if (marker === "X") {
           cell.innerHTML = `
-            <svg viewBox="0 0 24 24" class="mark mark-x">
+            <svg viewBox="0 0 24 24" class="mark mark-x" aria-hidden="true">
               <path d="M 5,5 L 19,19" />
               <path d="M 19,5 L 5,19" />
             </svg>
           `;
         } else if (marker === "O") {
           cell.innerHTML = `
-            <svg viewBox="0 0 24 24" class="mark mark-o">
+            <svg viewBox="0 0 24 24" class="mark mark-o" aria-hidden="true">
               <circle cx="12" cy="12" r="8" />
             </svg>
           `;
         }
         cell.dataset.marker = marker || "";
       }
+
+      // Accessibility: update ARIA label
+      const row = Math.floor(index / 3) + 1;
+      const col = (index % 3) + 1;
+      const status = marker ? `Player ${marker}` : "empty";
+      cell.setAttribute("aria-label", `Row ${row}, Column ${col}, ${status}`);
     });
 
     // Check for Game Over

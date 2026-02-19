@@ -122,17 +122,21 @@ ol[role="list"] {
 body.light-theme {
   --color-bg: #f0f2f5;
   --color-text: #1a1a1b;
+  --color-text-muted: #57606a; /* Improved contrast (5.9:1) */
   --color-surface: #ffffff;
-  --color-border: #e4e6eb;
+  --color-border: #d0d7de;
+  --color-primary: #0969da; /* Improved contrast for light mode */
   --shadow-neumorphic: 5px 5px 10px #d1d9e6, -5px -5px 10px #ffffff;
 }
 
 body.dark-theme {
-  --color-bg: #18191a;
-  --color-text: #e4e6eb;
-  --color-surface: #242526;
-  --color-border: #3a3b3c;
-  --shadow-neumorphic: 5px 5px 10px #121212, -5px -5px 10px #2a2a2a;
+  --color-bg: #0d1117;
+  --color-text: #c9d1d9;
+  --color-text-muted: #8b949e; /* Improved contrast (4.5:1 on #0d1117) */
+  --color-surface: #161b22;
+  --color-border: #30363d;
+  --color-primary: #58a6ff; /* Legible blue for dark mode */
+  --shadow-neumorphic: 5px 5px 10px #010409, -5px -5px 10px #161b22;
 }
 
 /* =========================================
@@ -263,8 +267,10 @@ header {
   box-shadow: var(--shadow-neumorphic);
   transition:
     transform 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    background-color 0.3s ease;
   position: relative;
+  padding: var(--space-sm);
 }
 
 .cell:hover {
@@ -383,8 +389,8 @@ button:hover {
 ========================================= */
 
 .mark {
-  width: 70%;
-  height: 70%;
+  width: 100%;
+  height: 100%;
   fill: none;
   stroke-width: 3;
   stroke-linecap: round;
