@@ -11,6 +11,7 @@ const GameController = (() => {
   let activePlayer = players[0];
   let isGameOverState = false;
   let winner = null;
+  const scores = { X: 0, O: 0, tie: 0 };
 
   const winConditions = [
     [0, 1, 2], // Top row
@@ -64,10 +65,12 @@ const GameController = (() => {
     if (checkWin()) {
       isGameOverState = true;
       winner = activePlayer;
+      scores[activePlayer.getSymbol()] += 1;
       switchPlayerTurn(); // Final switch so UI knows who ended it
     } else if (Gameboard.getBoard().every((cell) => cell !== null)) {
       isGameOverState = true;
       winner = null; // Tie
+      scores.tie += 1;
     } else {
       switchPlayerTurn();
     }
@@ -88,17 +91,33 @@ const GameController = (() => {
   const getWinner = () => winner;
 
   /**
-   * Updates the names of the players.
+   * Returns the current scores.
+   * @returns {Object} The scores object.
+   */
+  const getScores = () => ({ ...scores });
+
+  /**
+   * Resets all scores.
+   */
+  const resetScores = () => {
+    scores.X = 0;
+    scores.O = 0;
+    scores.tie = 0;
+  };
+
+  /**
+   * Updates the names of the players and resets scores.
    * @param {string} name1 - Name for Player X.
    * @param {string} name2 - Name for Player O.
    */
   const setPlayerNames = (name1, name2) => {
     players = [Player(name1, "X"), Player(name2, "O")];
     [activePlayer] = players;
+    resetScores();
   };
 
   /**
-   * Resets the game state.
+   * Resets the game state (keeps scores).
    */
   const resetGame = () => {
     [activePlayer] = players;
@@ -114,6 +133,8 @@ const GameController = (() => {
     checkWin,
     isGameOver,
     getWinner,
+    getScores,
+    resetScores,
     resetGame,
   };
 })();

@@ -1,12 +1,16 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import GameController from "../src/GameController.js";
 import Gameboard from "../src/Gameboard.js";
 
+const resetAll = () => {
+  Gameboard.resetBoard();
+  GameController.resetGame();
+  GameController.resetScores();
+};
+
 describe("GameController Win Logic", () => {
-  beforeEach(() => {
-    Gameboard.resetBoard();
-    GameController.resetGame();
-  });
+  beforeEach(resetAll);
+  afterEach(resetAll);
 
   it("should detect a horizontal win (top row)", () => {
     Gameboard.placeMarker(0, "X");
@@ -98,10 +102,8 @@ describe("GameController Win Logic", () => {
 });
 
 describe("GameController Flow", () => {
-  beforeEach(() => {
-    Gameboard.resetBoard();
-    GameController.resetGame();
-  });
+  beforeEach(resetAll);
+  afterEach(resetAll);
 
   it("should start with Player X as the active player", () => {
     expect(GameController.getActivePlayer().getSymbol()).toBe("X");
@@ -160,5 +162,97 @@ describe("GameController Flow", () => {
     // Play a round to switch to next player
     GameController.playRound(0);
     expect(GameController.getActivePlayer().getName()).toBe("Bob");
+  });
+});
+
+describe("GameController Score Tracking", () => {
+  beforeEach(() => {
+    resetAll();
+    GameController.setPlayerNames("Player X", "Player O");
+  });
+
+  it("should initialize scores to zero", () => {
+    const scores = GameController.getScores();
+    expect(scores.X).toBe(0);
+    expect(scores.O).toBe(0);
+    expect(scores.tie).toBe(0);
+  });
+
+  it("should increment Player X score on win", () => {
+    // X wins
+    GameController.playRound(0); // X
+    GameController.playRound(3); // O
+    GameController.playRound(1); // X
+    GameController.playRound(4); // O
+    GameController.playRound(2); // X wins
+
+    const scores = GameController.getScores();
+    expect(scores.X).toBe(1);
+    expect(scores.O).toBe(0);
+    expect(scores.tie).toBe(0);
+  });
+
+  it("should increment Player O score on win", () => {
+    GameController.playRound(0); // X
+    GameController.playRound(3); // O
+    GameController.playRound(1); // X
+    GameController.playRound(4); // O
+    GameController.playRound(6); // X
+    GameController.playRound(5); // O wins
+
+    const scores = GameController.getScores();
+    expect(scores.X).toBe(0);
+    expect(scores.O).toBe(1);
+    expect(scores.tie).toBe(0);
+  });
+
+  it("should increment tie score on tie", () => {
+    const moves = [0, 1, 2, 4, 3, 5, 7, 6, 8];
+    moves.forEach((move) => GameController.playRound(move));
+
+    const scores = GameController.getScores();
+    expect(scores.tie).toBe(1);
+  });
+
+  it("should persist scores after resetGame (Play Again)", () => {
+    // Round 1: X wins
+    GameController.playRound(0); // X
+    GameController.playRound(3); // O
+    GameController.playRound(1); // X
+    GameController.playRound(4); // O
+    GameController.playRound(2); // X wins
+
+    expect(GameController.getScores().X).toBe(1);
+
+    // Play Again
+    GameController.resetGame();
+
+    // Round 2: O wins
+    GameController.playRound(0); // X
+    GameController.playRound(3); // O
+    GameController.playRound(1); // X
+    GameController.playRound(4); // O
+    GameController.playRound(6); // X
+    GameController.playRound(5); // O wins
+
+    const scores = GameController.getScores();
+    expect(scores.X).toBe(1);
+    expect(scores.O).toBe(1);
+  });
+
+  it("should reset scores after setPlayerNames (New Match)", () => {
+    // X wins
+    GameController.playRound(0);
+    GameController.playRound(3);
+    GameController.playRound(1);
+    GameController.playRound(4);
+    GameController.playRound(2);
+
+    expect(GameController.getScores().X).toBe(1);
+
+    GameController.setPlayerNames("Alice", "Bob");
+
+    const scores = GameController.getScores();
+    expect(scores.X).toBe(0);
   });
 });
