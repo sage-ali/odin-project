@@ -33,6 +33,7 @@ describe("DisplayController", () => {
         <span id="score-tie">0</span>
         <span id="score-o">0</span>
       </div>
+      <button id="theme-toggle"></button>
       <dialog id="game-over-dialog">
         <h2 id="result-text"></h2>
         <button id="restart-game-btn"></button>
@@ -166,6 +167,22 @@ describe("DisplayController", () => {
 
       expect(GameController.resetGame).toHaveBeenCalled();
       expect(gameOverDialog.close).toHaveBeenCalled();
+    });
+
+    it("should toggle the theme when theme-toggle button is clicked", () => {
+      document.body.classList.add("light-theme");
+      document.body.classList.remove("dark-theme");
+
+      DisplayController.init();
+      const themeToggle = document.getElementById("theme-toggle");
+
+      themeToggle.click();
+      expect(document.body.classList.contains("dark-theme")).toBe(true);
+      expect(document.body.classList.contains("light-theme")).toBe(false);
+
+      themeToggle.click();
+      expect(document.body.classList.contains("light-theme")).toBe(true);
+      expect(document.body.classList.contains("dark-theme")).toBe(false);
     });
   });
 });

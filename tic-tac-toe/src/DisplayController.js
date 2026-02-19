@@ -94,6 +94,7 @@ const DisplayController = (() => {
     const startDialog = document.getElementById("start-dialog");
     const restartBtn = document.getElementById("restart-game-btn");
     const gameOverDialog = document.getElementById("game-over-dialog");
+    const themeToggle = document.getElementById("theme-toggle");
 
     if (boardContainer) {
       boardContainer.addEventListener("click", (e) => {
@@ -137,6 +138,13 @@ const DisplayController = (() => {
         }
         render();
         updateTurnInfo(GameController.getActivePlayer());
+      });
+    }
+
+    if (themeToggle) {
+      themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("light-theme");
+        document.body.classList.toggle("dark-theme");
       });
     }
   };
