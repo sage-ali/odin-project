@@ -43,6 +43,7 @@ export default [
       "import/no-unresolved": "off",
       "import/extensions": ["error", "ignorePackages", { js: "always" }],
       "no-underscore-dangle": ["error", { allow: ["__filename", "__dirname"] }],
+      "security/detect-object-injection": "off",
     },
     settings: {
       "import/resolver": {

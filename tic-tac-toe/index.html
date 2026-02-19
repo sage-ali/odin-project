@@ -1,96 +1,130 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic Tac Toe</title>
+    <meta name="description" content="A clean and modern Tic Tac Toe game." />
+    <link
+      rel="preload"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+      as="style"
+      integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+      crossorigin="anonymous"
+    />
+    <link rel="preload" href="/src/styles/style.css" as="style" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tic Tac Toe</title>
-  <meta name="description" content="A clean and modern Tic Tac Toe game." />
-  <link rel="preload"
-    href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-    as="style"
-    integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
-    crossorigin="anonymous" />
-  <link rel="preload" href="/src/styles/style.css" as="style" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+      integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/src/styles/style.css" />
+  </head>
 
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-    integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="/src/styles/style.css" />
-</head>
+  <body class="light-theme">
+    <header>
+      <div class="header-content">
+        <h1 class="title">Tic Tac Toe</h1>
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          aria-label="Toggle Dark/Light Theme"
+        >
+          <div class="toggle-container">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="sun-icon"
+            >
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="moon-icon"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </div>
+        </button>
+      </div>
+    </header>
 
-<body class="light-theme">
-  <header>
-    <div class="header-content">
-      <h1 class="title">Tic Tac Toe</h1>
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark/Light Theme">
-        <div class="toggle-container">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sun-icon"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon-icon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    <main>
+      <div class="hud" role="status" aria-live="polite">
+        <p id="turn-indicator">Player X's Turn</p>
+      </div>
+
+      <div id="game-container">
+        <div id="board" class="board"></div>
+      </div>
+
+      <div class="scoreboard">
+        <div class="score-item">
+          <span class="label">Player X</span>
+          <span id="score-x" class="value">0</span>
         </div>
-      </button>
-    </div>
-  </header>
-
-  <main>
-    <div class="hud" role="status" aria-live="polite">
-      <p id="turn-indicator">Player X's Turn</p>
-    </div>
-
-    <div id="game-container">
-      <div id="board" class="board">
+        <div class="score-item">
+          <span class="label">Ties</span>
+          <span id="score-tie" class="value">0</span>
+        </div>
+        <div class="score-item">
+          <span class="label">Player O</span>
+          <span id="score-o" class="value">0</span>
+        </div>
       </div>
-    </div>
+    </main>
 
-    <div class="scoreboard">
-      <div class="score-item">
-        <span class="label">Player X</span>
-        <span id="score-x" class="value">0</span>
+    <!-- Start Game Dialog -->
+    <dialog id="start-dialog">
+      <form method="dialog">
+        <h2>New Game</h2>
+        <div class="input-group">
+          <label for="player-x-name">Player X Name</label>
+          <input type="text" id="player-x-name" placeholder="Alice" required />
+        </div>
+        <div class="input-group">
+          <label for="player-o-name">Player O Name</label>
+          <input type="text" id="player-o-name" placeholder="Bob" required />
+        </div>
+        <button type="submit" id="start-game-btn">Start Match</button>
+      </form>
+    </dialog>
+
+    <!-- Game Over Dialog -->
+    <dialog id="game-over-dialog">
+      <div class="dialog-content">
+        <h2 id="result-text">X Wins!</h2>
+        <button id="restart-game-btn" class="pulse">Play Again</button>
       </div>
-      <div class="score-item">
-        <span class="label">Ties</span>
-        <span id="score-tie" class="value">0</span>
-      </div>
-      <div class="score-item">
-        <span class="label">Player O</span>
-        <span id="score-o" class="value">0</span>
-      </div>
-    </div>
-  </main>
+    </dialog>
 
-  <!-- Start Game Dialog -->
-  <dialog id="start-dialog">
-    <form method="dialog">
-      <h2>New Game</h2>
-      <div class="input-group">
-        <label for="player-x-name">Player X Name</label>
-        <input type="text" id="player-x-name" placeholder="Alice" required />
-      </div>
-      <div class="input-group">
-        <label for="player-o-name">Player O Name</label>
-        <input type="text" id="player-o-name" placeholder="Bob" required />
-      </div>
-      <button type="submit" id="start-game-btn">Start Match</button>
-    </form>
-  </dialog>
+    <footer>
+      <p>
+        Created by
+        <a href="https://github.com/sage-ali">sage-ali</a>
+      </p>
+    </footer>
 
-  <!-- Game Over Dialog -->
-  <dialog id="game-over-dialog">
-    <div class="dialog-content">
-      <h2 id="result-text">X Wins!</h2>
-      <button id="restart-game-btn" class="pulse">Play Again</button>
-    </div>
-  </dialog>
-
-  <footer>
-    <p>
-      Created by
-      <a href="https://github.com/sage-ali">sage-ali</a>
-    </p>
-  </footer>
-
-  <script type="module" src="/src/main.js"></script>
-</body>
-
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>

@@ -13,7 +13,7 @@
     "lint": "eslint . --ext .js",
     "lint:fix": "eslint . --ext .js --fix",
     "format": "prettier --write .",
-    "security-check": "npm audit",
+    "security-check": "pnpm audit",
     "visualize": "npm run build && open stats.html"
   },
   "keywords": [],
