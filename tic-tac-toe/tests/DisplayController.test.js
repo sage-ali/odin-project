@@ -185,4 +185,48 @@ describe("DisplayController", () => {
       expect(document.body.classList.contains("dark-theme")).toBe(false);
     });
   });
+
+  describe("Optimization & Performance", () => {
+    it("should only update changed cells (Dirty Checking)", () => {
+      DisplayController.render();
+      const initialCells = Array.from(document.querySelectorAll(".cell"));
+
+      // Place a marker
+      Gameboard.placeMarker(0, "X");
+      DisplayController.render();
+
+      const newCells = Array.from(document.querySelectorAll(".cell"));
+
+      // Verify that the DOM elements themselves are reused (object identity)
+      initialCells.forEach((cell, index) => {
+        expect(cell).toBe(newCells[index]);
+      });
+
+      expect(newCells[0].querySelector("svg")).toBeTruthy();
+    });
+
+    it("performance: render should be extremely fast with optimization", () => {
+      DisplayController.render(); // Initial render to build the grid
+
+      performance.mark("render-start");
+      // Simulate multiple moves/renders
+      for (let i = 0; i < 9; i += 1) {
+        Gameboard.placeMarker(i, i % 2 === 0 ? "X" : "O");
+        DisplayController.render();
+      }
+      performance.mark("render-end");
+
+      const measure = performance.measure(
+        "render-optimization",
+        "render-start",
+        "render-end",
+      );
+
+      // eslint-disable-next-line no-console
+      console.log(`Render optimization duration: ${measure.duration}ms`);
+
+      // Optimized render of a single cell change should be near instantaneous in JSDOM
+      expect(measure.duration).toBeLessThan(10);
+    });
+  });
 });

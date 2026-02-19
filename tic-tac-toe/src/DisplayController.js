@@ -22,35 +22,51 @@ const DisplayController = (() => {
 
   /**
    * Renders the current state of the gameboard to the DOM.
+   * Optimizes updates by only modifying changed cells (Dirty Checking).
    */
   const render = () => {
     const boardContainer = document.getElementById("board");
     const board = Gameboard.getBoard();
     if (!boardContainer) return;
 
-    boardContainer.innerHTML = "";
+    let cells = boardContainer.querySelectorAll(".cell");
+
+    // Initialize grid if empty (first render or reset)
+    if (cells.length === 0) {
+      boardContainer.innerHTML = "";
+      for (let i = 0; i < 9; i += 1) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        cell.dataset.index = i;
+        boardContainer.appendChild(cell);
+      }
+      cells = boardContainer.querySelectorAll(".cell");
+    }
 
     board.forEach((marker, index) => {
-      const cell = document.createElement("div");
-      cell.classList.add("cell");
-      cell.dataset.index = index;
+      const cell = cells[index];
+      const currentMarker = cell.dataset.marker || null;
 
-      if (marker === "X") {
-        cell.innerHTML = `
-          <svg viewBox="0 0 24 24" class="mark mark-x">
-            <path d="M 5,5 L 19,19" />
-            <path d="M 19,5 L 5,19" />
-          </svg>
-        `;
-      } else if (marker === "O") {
-        cell.innerHTML = `
-          <svg viewBox="0 0 24 24" class="mark mark-o">
-            <circle cx="12" cy="12" r="8" />
-          </svg>
-        `;
+      // Only update if the marker has changed
+      if (marker !== currentMarker) {
+        cell.innerHTML = ""; // Clear existing content
+
+        if (marker === "X") {
+          cell.innerHTML = `
+            <svg viewBox="0 0 24 24" class="mark mark-x">
+              <path d="M 5,5 L 19,19" />
+              <path d="M 19,5 L 5,19" />
+            </svg>
+          `;
+        } else if (marker === "O") {
+          cell.innerHTML = `
+            <svg viewBox="0 0 24 24" class="mark mark-o">
+              <circle cx="12" cy="12" r="8" />
+            </svg>
+          `;
+        }
+        cell.dataset.marker = marker || "";
       }
-
-      boardContainer.appendChild(cell);
     });
 
     // Check for Game Over
