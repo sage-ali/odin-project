@@ -7,6 +7,20 @@ import GameController from "./GameController.js";
  */
 const DisplayController = (() => {
   /**
+   * Updates the scoreboard with the current scores.
+   */
+  const updateScoreboard = () => {
+    const scores = GameController.getScores();
+    const scoreX = document.getElementById("score-x");
+    const scoreO = document.getElementById("score-o");
+    const scoreTie = document.getElementById("score-tie");
+
+    if (scoreX) scoreX.textContent = scores.X;
+    if (scoreO) scoreO.textContent = scores.O;
+    if (scoreTie) scoreTie.textContent = scores.tie;
+  };
+
+  /**
    * Renders the current state of the gameboard to the DOM.
    */
   const render = () => {
@@ -54,6 +68,8 @@ const DisplayController = (() => {
       if (gameOverDialog && !gameOverDialog.open) {
         gameOverDialog.showModal();
       }
+
+      updateScoreboard();
     }
   };
 
@@ -109,6 +125,7 @@ const DisplayController = (() => {
 
         render();
         updateTurnInfo(GameController.getActivePlayer());
+        updateScoreboard();
       });
     }
 
@@ -128,6 +145,7 @@ const DisplayController = (() => {
     init,
     render,
     updateTurnInfo,
+    updateScoreboard,
   };
 })();
 

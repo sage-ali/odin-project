@@ -14,6 +14,7 @@ vi.mock("../src/GameController.js", () => ({
     setPlayerNames: vi.fn(),
     isGameOver: vi.fn(() => false),
     getWinner: vi.fn(() => null),
+    getScores: vi.fn(() => ({ X: 0, O: 0, tie: 0 })),
   },
 }));
 
@@ -27,6 +28,11 @@ describe("DisplayController", () => {
     document.body.innerHTML = `
       <div id="board" class="board"></div>
       <p id="turn-indicator"></p>
+      <div class="scoreboard">
+        <span id="score-x">0</span>
+        <span id="score-tie">0</span>
+        <span id="score-o">0</span>
+      </div>
       <dialog id="game-over-dialog">
         <h2 id="result-text"></h2>
         <button id="restart-game-btn"></button>
@@ -100,6 +106,16 @@ describe("DisplayController", () => {
 
     expect(gameOverDialog.showModal).toHaveBeenCalled();
     expect(resultText.textContent).toContain("Tie");
+  });
+
+  it("should update the scoreboard", () => {
+    GameController.getScores.mockReturnValue({ X: 2, O: 1, tie: 3 });
+
+    DisplayController.updateScoreboard();
+
+    expect(document.getElementById("score-x").textContent).toBe("2");
+    expect(document.getElementById("score-o").textContent).toBe("1");
+    expect(document.getElementById("score-tie").textContent).toBe("3");
   });
 
   describe("Interactions", () => {
