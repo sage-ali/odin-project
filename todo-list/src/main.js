@@ -2,6 +2,7 @@ import { pubsub } from './core/pubsub.js';
 import { appState } from './data/appState.js';
 import { storageManager } from './services/localStorage.js';
 import { render } from './ui/render.js';
+import { initEventHandlers } from './ui/eventHandlers.js';
 import templates from './template.html?raw';
 
 // Initialize Application
@@ -27,7 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
     render(state);
   });
 
-  // 5. Perform initial render
+  // 5. Initialize Event Handlers (Delegation & Forms)
+  initEventHandlers();
+
+  // 6. Perform initial render
   render(appState.getState());
 
   console.log('Todo App Initialized');
