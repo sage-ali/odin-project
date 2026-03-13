@@ -1,0 +1,80 @@
+/* Root variables for theming */
+:root {
+  --primary-color: #2563eb;
+  --secondary-color: #64748b;
+  --bg-color: #fff;
+  --text-color: #1e293b;
+  --border-color: #e2e8f0;
+  --sidebar-bg: #f8fafc;
+  --card-bg: #fff;
+
+  /* Priority Colors */
+  --priority-high: #ef4444;
+  --priority-medium: #f59e0b;
+  --priority-low: #3b82f6;
+  --priority-none: transparent;
+}
+
+/* Dark mode overrides (automatically synced via PostCSS/system preference) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #0f172a;
+    --text-color: #f1f5f9;
+    --border-color: #334155;
+    --sidebar-bg: #1e293b;
+    --card-bg: #1e293b;
+  }
+}
+
+/* Base styles */
+body {
+  margin: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
+
+/* Demonstration of Nesting (handled by PostCSS) */
+.dashboard {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  height: 100vh;
+
+  & .sidebar {
+    padding: 1.5rem;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+
+    & .sidebar__title {
+      margin-bottom: 2rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+  }
+
+  & .main-content {
+    padding: 2rem;
+    overflow-y: auto;
+
+    & .task-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  }
+}
+
+/* Accessible hidden element */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border-width: 0;
+  clip-path: inset(50%);
+}

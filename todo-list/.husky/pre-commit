@@ -1,0 +1,1 @@
+cd todo-list && pnpm run lint && pnpm run lint:css && pnpm run test:run
