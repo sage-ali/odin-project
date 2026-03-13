@@ -19,7 +19,9 @@ describe('UI Renderer', () => {
 
       <template id="task-item-template">
         <li class="task-row">
+          <div class="priority-indicator"></div>
           <span class="task-title"></span>
+          <span class="task-due-date"></span>
         </li>
       </template>
     `;
@@ -32,6 +34,7 @@ describe('UI Renderer', () => {
         { id: '2', title: 'Work', todos: [] },
       ],
       activeProjectId: '1',
+      sortCriteria: 'default',
     };
 
     render(state);
@@ -49,12 +52,13 @@ describe('UI Renderer', () => {
           id: '1',
           title: 'Default',
           todos: [
-            { id: 't1', title: 'Task 1', completed: false },
-            { id: 't2', title: 'Task 2', completed: true },
+            { id: 't1', title: 'Task 1', completed: false, priority: 'none' },
+            { id: 't2', title: 'Task 2', completed: true, priority: 'none' },
           ],
         },
       ],
       activeProjectId: '1',
+      sortCriteria: 'default',
     };
 
     render(state);
@@ -72,6 +76,7 @@ describe('UI Renderer', () => {
     const state = {
       projects: [{ id: '1', title: 'New', todos: [] }],
       activeProjectId: '1',
+      sortCriteria: 'default',
     };
 
     // Pre-populate

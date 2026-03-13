@@ -35,16 +35,13 @@
 
 <body>
   <div class="dashboard">
-    <!-- Header (Mobile Only / Responsive) -->
+    <!-- Header (Mobile Only) -->
     <header class="app-header">
-      <button id="menu-toggle" class="btn-icon" aria-label="Toggle Menu">
-        <span class="mdi mdi-menu"></span>
-      </button>
-      <h1 class="app-title">Todo List</h1>
-      <div class="header-actions">
-        <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
-          <span class="mdi mdi-weather-sunny"></span>
+      <div class="header-left">
+        <button id="menu-toggle" class="btn-icon" aria-label="Toggle Menu">
+          <span class="mdi mdi-menu"></span>
         </button>
+        <h1 class="app-title">Todo List</h1>
       </div>
     </header>
 
@@ -67,6 +64,20 @@
         <div class="project-info">
           <h2 id="active-project-title">Inbox</h2>
           <p id="current-date" class="date-display"></p>
+        </div>
+        <div class="header-actions">
+          <div class="view-selector-container">
+            <span class="mdi mdi-view-module-outline selector-icon"></span>
+            <select id="view-selector" class="view-selector" aria-label="Select View">
+              <option value="default">List View</option>
+              <option value="date">Date View</option>
+              <option value="status">Status View (Kanban)</option>
+              <option value="priority">Priority View</option>
+            </select>
+          </div>
+          <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
+            <span class="mdi mdi-weather-sunny"></span>
+          </button>
         </div>
       </header>
 

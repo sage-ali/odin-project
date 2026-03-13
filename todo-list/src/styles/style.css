@@ -91,7 +91,7 @@ input {
   height: 100vh;
 }
 
-/* App Header */
+/* App Header (Mobile Only) */
 .app-header {
   z-index: 100;
   display: flex;
@@ -102,15 +102,16 @@ input {
   background-color: var(--bg);
   border-bottom: 1px solid var(--border);
 
+  & .header-left {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
   & .app-title {
     margin: 0;
     font-size: 1.25rem;
     font-weight: 700;
-  }
-
-  & .header-actions {
-    display: flex;
-    gap: 0.5rem;
   }
 }
 
@@ -203,6 +204,11 @@ input {
   overflow-y: auto;
 
   & .project-view-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
     max-width: 800px;
     margin-bottom: 2rem;
@@ -218,6 +224,12 @@ input {
       font-size: 0.875rem;
       color: var(--text-muted);
     }
+
+    & .header-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
   }
 
   & .task-section {
@@ -225,6 +237,41 @@ input {
     max-width: 800px;
   }
 }
+
+/* Grouped View & Kanban */
+.task-list.grouped-view {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+  max-width: none;
+}
+
+.task-group-section {
+  flex: 1;
+  min-width: 300px;
+}
+
+.group-header {
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid var(--border);
+}
+
+.group-task-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Status specific colors in grouped view */
+.task-group-section:nth-child(1) .group-header { border-color: var(--text-muted); }
+.task-group-section:nth-child(2) .group-header { border-color: var(--primary); }
+.task-group-section:nth-child(3) .group-header { border-color: #22c55e; } /* Done green */
 
 /* Task List Items */
 .task-list {
@@ -303,6 +350,40 @@ input {
         color: var(--priority-high);
       }
     }
+  }
+}
+
+/* View Selector Styling */
+.view-selector-container {
+  position: relative;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  background-color: var(--bg-sidebar);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  transition: border-color var(--transition);
+
+  &:hover {
+    border-color: var(--primary);
+  }
+
+  & .selector-icon {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+  }
+
+  & .view-selector {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text);
+    appearance: none;
+    cursor: pointer;
+    outline: none;
+    background: none;
+    border: none;
   }
 }
 

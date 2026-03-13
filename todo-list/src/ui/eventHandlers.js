@@ -14,6 +14,7 @@ export function initEventHandlers() {
   const themeToggle = document.getElementById('theme-toggle');
   const addProjectBtn = document.getElementById('add-project-btn');
   const addTaskForm = document.getElementById('add-task-form');
+  const viewSelector = document.getElementById('view-selector');
   const dialog = document.getElementById('details-dialog');
 
   // Sidebar Toggle (Mobile)
@@ -113,6 +114,7 @@ export function initEventHandlers() {
     form.description.value = activeTaskDraft.description;
     form.dueDate.value = activeTaskDraft.dueDate;
     form.priority.value = activeTaskDraft.priority;
+    form.status.value = activeTaskDraft.status || 'todo';
     form.notes.value = activeTaskDraft.notes;
 
     renderChecklistDraft();
@@ -163,6 +165,7 @@ export function initEventHandlers() {
         description: formData.get('description'),
         dueDate: formData.get('dueDate'),
         priority: formData.get('priority'),
+        status: formData.get('status'),
         notes: formData.get('notes'),
       };
 
@@ -216,6 +219,11 @@ export function initEventHandlers() {
     document.documentElement.setAttribute('data-theme', newTheme);
     themeToggle.querySelector('.mdi').className =
       `mdi ${newTheme === 'dark' ? 'mdi-weather-night' : 'mdi-weather-sunny'}`;
+  });
+
+  // View Switching
+  viewSelector?.addEventListener('change', (e) => {
+    appState.setSortCriteria(e.target.value);
   });
 
   // Global Dialog Close
