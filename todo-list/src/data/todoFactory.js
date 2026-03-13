@@ -10,6 +10,7 @@ export const todoFactory = ({
   notes = '',
   checklist = [],
   completed = false,
+  status = 'todo',
 }) => {
   return {
     id: crypto.randomUUID(),
@@ -20,5 +21,6 @@ export const todoFactory = ({
     notes,
     checklist,
     completed,
+    status,
   };
 };

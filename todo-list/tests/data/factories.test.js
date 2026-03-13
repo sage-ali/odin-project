@@ -22,6 +22,7 @@ describe('Data Factories', () => {
         notes: 'Test notes',
         checklist: [{ text: 'Step 1', checked: false }],
         completed: false,
+        status: 'todo',
       });
     });
 
