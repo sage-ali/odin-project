@@ -1,0 +1,31 @@
+<!-- Project List Item Template -->
+<template id="project-item-template">
+  <li class="sidebar-item">
+    <button class="project-btn">
+      <span class="mdi mdi-format-list-bulleted"></span>
+      <span class="project-title-text"></span>
+    </button>
+    <button class="delete-project-btn btn-icon-small" aria-label="Delete Project">
+      <span class="mdi mdi-close"></span>
+    </button>
+  </li>
+</template>
+
+<!-- Task Item Template -->
+<template id="task-item-template">
+  <li class="task-row">
+    <div class="priority-indicator"></div>
+    <button class="task-checkbox-btn" aria-label="Toggle Complete">
+      <span class="mdi mdi-checkbox-blank-circle-outline"></span>
+    </button>
+    <div class="task-content">
+      <span class="task-title"></span>
+      <span class="task-due-date"></span>
+    </div>
+    <div class="task-actions">
+      <button class="delete-task-btn btn-icon" aria-label="Delete Task">
+        <span class="mdi mdi-delete-outline"></span>
+      </button>
+    </div>
+  </li>
+</template>

@@ -29,6 +29,10 @@ export const appState = {
     this.notify();
   },
 
+  getState() {
+    return state;
+  },
+
   getProjects() {
     return state.projects;
   },

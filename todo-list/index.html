@@ -4,8 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Project Title</title>
-  <meta name="description" content="Short description" />
+  <title>Todo List - Tasks & Projects</title>
+  <meta name="description" content="A robust, responsive task management application built with Vanilla JS." />
+
+  <!-- Preloads -->
   <link rel="preload"
     href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
     as="style"
@@ -13,11 +15,13 @@
     crossorigin="anonymous" />
   <link rel="preload" href="/src/styles/style.css" as="style" />
 
+  <!-- Stylesheets -->
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
     integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- Material Design Icons CDN (Async to prevent render blocking) -->
+
+  <!-- Material Design Icons CDN -->
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css"
     media="print" onload="this.media='all'">
@@ -25,25 +29,80 @@
     <link rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css">
   </noscript>
+
   <link rel="stylesheet" href="/src/styles/style.css" />
 </head>
 
 <body>
-  <header>
-    <h1 class="title">Project Title</h1>
-  </header>
+  <div class="dashboard">
+    <!-- Header (Mobile Only / Responsive) -->
+    <header class="app-header">
+      <button id="menu-toggle" class="btn-icon" aria-label="Toggle Menu">
+        <span class="mdi mdi-menu"></span>
+      </button>
+      <h1 class="app-title">Todo List</h1>
+      <div class="header-actions">
+        <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
+          <span class="mdi mdi-weather-sunny"></span>
+        </button>
+      </div>
+    </header>
 
-  <main>
+    <!-- Sidebar (Off-canvas on mobile, fixed on desktop) -->
+    <nav class="sidebar" id="app-sidebar">
+      <div class="sidebar-header">
+        <h2 class="sidebar-title">Projects</h2>
+        <button id="add-project-btn" class="btn-icon" aria-label="Add Project">
+          <span class="mdi mdi-plus"></span>
+        </button>
+      </div>
+      <ul id="project-list" class="sidebar-list">
+        <!-- Rendered dynamically -->
+      </ul>
+    </nav>
 
-  </main>
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="project-view-header">
+        <div class="project-info">
+          <h2 id="active-project-title">Inbox</h2>
+          <p id="current-date" class="date-display"></p>
+        </div>
+      </header>
 
-  <footer>
+      <section class="task-section">
+        <ul id="task-list" class="task-list">
+          <!-- Rendered dynamically -->
+        </ul>
+
+        <!-- Inline Add Task -->
+        <form id="add-task-form" class="add-task-form">
+          <button type="submit" class="btn-icon" aria-label="Add Task">
+            <span class="mdi mdi-plus"></span>
+          </button>
+          <input type="text" id="new-task-title" placeholder="Add a task..." required />
+        </form>
+      </section>
+    </main>
+
+    <!-- Overlay for mobile menu -->
+    <div id="sidebar-overlay" class="overlay"></div>
+  </div>
+
+  <!-- Task Details Modal/Bottom Sheet -->
+  <dialog id="task-details-dialog" class="task-details-modal">
+    <!-- Content handled by UIManager -->
+  </dialog>
+
+  <!-- Templates injected dynamically from src/template.html -->
+
+    <footer>
     <p>
       Created by
       <a href="https://github.com/sage-ali">sage-ali</a>
     </p>
   </footer>
-
+  <!-- Script Entry Point -->
   <script type="module" src="/src/main.js"></script>
 </body>
 
