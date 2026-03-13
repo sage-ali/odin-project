@@ -203,8 +203,9 @@ export function initEventHandlers() {
     const input = document.getElementById('new-task-title');
     const title = input.value.trim();
     if (title) {
-      appState.addItem({ title });
+      const newId = appState.addItem({ title });
       input.value = '';
+      if (newId) openTaskModal(newId);
     }
   });
 

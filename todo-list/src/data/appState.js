@@ -67,7 +67,9 @@ export const appState = {
       const newItem = todoFactory(itemData);
       activeProject.todos.push(newItem);
       this.notify();
+      return newItem.id;
     }
+    return null;
   },
 
   deleteItem(itemId) {
