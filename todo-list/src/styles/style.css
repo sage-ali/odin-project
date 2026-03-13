@@ -1,72 +1,614 @@
-/* Root variables for theming */
-:root {
-  --primary-color: #2563eb;
-  --secondary-color: #64748b;
-  --bg-color: #fff;
-  --text-color: #1e293b;
-  --border-color: #e2e8f0;
-  --sidebar-bg: #f8fafc;
-  --card-bg: #fff;
+/**
+ * Todo List Application Styles
+ * Following Mobile-First and BEM principles.
+ */
 
-  /* Priority Colors */
+:root {
+  /* Colors - Light Mode (Default) */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --bg: #fff;
+  --bg-sidebar: #f8fafc;
+  --bg-card: #fff;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --overlay: rgb(0 0 0 / 40%);
+
+  /* Priorities */
   --priority-high: #ef4444;
   --priority-medium: #f59e0b;
   --priority-low: #3b82f6;
   --priority-none: transparent;
+
+  /* Spacing */
+  --header-height: 64px;
+  --sidebar-width: 280px;
+
+  /* Transitions */
+  --transition: 0.2s ease-in-out;
 }
 
-/* Dark mode overrides (automatically synced via PostCSS/system preference) */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-color: #0f172a;
-    --text-color: #f1f5f9;
-    --border-color: #334155;
-    --sidebar-bg: #1e293b;
-    --card-bg: #1e293b;
-  }
+/* Dark Mode Overrides */
+[data-theme='dark'] {
+  --bg: #0f172a;
+  --bg-sidebar: #1e293b;
+  --bg-card: #1e293b;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border: #334155;
+  --overlay: rgb(0 0 0 / 60%);
 }
 
-/* Base styles */
+/* Base Styles */
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family:
+    Inter,
     system-ui,
     -apple-system,
     sans-serif;
-  color: var(--text-color);
-  background-color: var(--bg-color);
+  line-height: 1.5;
+  color: var(--text);
+  background-color: var(--bg);
+  transition:
+    background-color var(--transition),
+    color var(--transition);
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Demonstration of Nesting (handled by PostCSS) */
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+button {
+  padding: 0;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+input {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Layout Classes */
 .dashboard {
   display: grid;
-  grid-template-columns: 250px 1fr;
+  grid-template-areas:
+    'header'
+    'main';
+  grid-template-rows: var(--header-height) 1fr;
   height: 100vh;
+}
 
-  & .sidebar {
-    padding: 1.5rem;
-    background-color: var(--sidebar-bg);
-    border-right: 1px solid var(--border-color);
+/* App Header */
+.app-header {
+  z-index: 100;
+  display: flex;
+  grid-area: header;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  background-color: var(--bg);
+  border-bottom: 1px solid var(--border);
 
-    & .sidebar__title {
-      margin-bottom: 2rem;
-      font-size: 1.25rem;
-      font-weight: 700;
+  & .app-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  & .header-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+}
+
+/* Sidebar (Mobile First - Off-canvas) */
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  width: var(--sidebar-width);
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  transform: translateX(-100%);
+  transition: transform var(--transition);
+
+  &.open {
+    transform: translateX(0);
+  }
+
+  & .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-height);
+    padding: 0 1.5rem;
+    border-bottom: 1px solid var(--border);
+
+    & .sidebar-title {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
   }
 
-  & .main-content {
-    padding: 2rem;
+  & .sidebar-list {
+    flex: 1;
+    padding: 1rem 0.5rem;
     overflow-y: auto;
+  }
+}
 
-    & .task-list {
-      max-width: 800px;
-      margin: 0 auto;
+/* Sidebar Items */
+.sidebar-item {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  border-radius: 8px;
+  transition: background-color var(--transition);
+
+  &:hover,
+  &.active {
+    background-color: var(--border);
+  }
+
+  & .project-btn {
+    display: flex;
+    flex: 1;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    text-align: left;
+  }
+
+  & .delete-project-btn {
+    margin-right: 0.5rem;
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
+
+  &:hover .delete-project-btn {
+    opacity: 1;
+  }
+}
+
+/* Main Content Area */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  grid-area: main;
+  align-items: center;
+  padding: 1.5rem;
+  overflow-y: auto;
+
+  & .project-view-header {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 2rem;
+
+    & h2 {
+      margin: 0;
+      font-size: 1.875rem;
+      font-weight: 800;
+    }
+
+    & .date-display {
+      margin: 0.25rem 0 0;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+  }
+
+  & .task-section {
+    width: 100%;
+    max-width: 800px;
+  }
+}
+
+/* Task List Items */
+.task-list {
+  margin-bottom: 2rem;
+}
+
+.task-row {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition:
+    transform 0.1s ease,
+    box-shadow var(--transition);
+
+  &:active {
+    transform: scale(99%);
+  }
+
+  & .task-checkbox-btn {
+    display: flex;
+    padding: 0;
+    font-size: 1.5rem;
+    color: var(--text-muted);
+  }
+
+  &.completed {
+    & .task-checkbox-btn {
+      color: var(--primary);
+    }
+
+    & .task-title {
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+  }
+
+  & .priority-indicator {
+    position: absolute;
+    top: 0.75rem;
+    bottom: 0.75rem;
+    left: 0;
+    width: 4px;
+    background-color: var(--priority-none);
+    border-radius: 0 4px 4px 0;
+  }
+
+  & .task-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+
+    & .task-title {
+      font-weight: 500;
+    }
+
+    & .task-due-date {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+  }
+
+  & .task-actions {
+    display: flex;
+    gap: 0.5rem;
+
+    & .delete-task-btn {
+      color: var(--text-muted);
+
+      &:hover {
+        color: var(--priority-high);
+      }
     }
   }
 }
 
-/* Accessible hidden element */
+/* Add Task Form */
+.add-task-form {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  transition: border-color var(--transition);
+
+  &:focus-within {
+    border-color: var(--primary);
+    border-style: solid;
+  }
+
+  & input {
+    flex: 1;
+    color: var(--text);
+    outline: none;
+    background: none;
+    border: none;
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
+  }
+}
+
+/* Generic Icon Button */
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  border-radius: 20px;
+  transition: background-color var(--transition);
+
+  &:hover {
+    background-color: var(--border);
+  }
+
+  &:active {
+    background-color: var(--border);
+    transform: scale(95%);
+  }
+}
+
+/* Modal / Dialog Styles */
+.task-details-modal {
+  padding: 0;
+  overflow: hidden;
+  color: var(--text);
+  outline: none;
+  background: none;
+  border: none;
+  border-radius: 24px 24px 0 0;
+}
+
+.task-details-modal::backdrop {
+  background-color: var(--overlay);
+  backdrop-filter: blur(2px);
+}
+
+/* Modal Layout */
+.modal-content {
+  width: 100vw;
+  max-width: 100%;
+  padding: 1.5rem;
+  background-color: var(--bg);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+/* Form Styles */
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.add-checklist-item {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.add-checklist-item input {
+  flex: 1;
+}
+
+.modal-form input,
+.modal-form textarea,
+.modal-form select {
+  padding: 0.75rem 1rem;
+  color: var(--text);
+  outline: none;
+  background-color: var(--bg-sidebar);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.modal-form input:focus,
+.modal-form textarea:focus,
+.modal-form select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgb(37 99 235 / 10%);
+}
+
+/* Checklist in Modal */
+.modal-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.checklist-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.subtask-text {
+  flex: 1;
+  font-size: 0.875rem;
+}
+
+/* Modal Buttons */
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.btn-primary {
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: var(--primary);
+  border-radius: 8px;
+  transition: background-color var(--transition);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-primary.full-width {
+  width: 100%;
+}
+
+.btn-text {
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-height: 60vh;
+  padding: 0.5rem;
+  overflow-y: auto;
+}
+
+.btn-icon-small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 1.25rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-radius: 8px;
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  display: none;
+  background-color: var(--overlay);
+
+  &.active {
+    display: block;
+  }
+}
+
+/* Footer Styling */
+footer {
+  padding: 1.5rem;
+  margin-top: auto;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  text-align: center;
+  border-top: 1px solid var(--border);
+
+  & a {
+    font-weight: 500;
+    color: var(--primary);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* Responsive Enhancements */
+@media (width < 768px) {
+  .task-details-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    transform: translateY(100%);
+    transition: transform 2s ease-out;
+  }
+
+  .task-details-modal[open] {
+    transform: translate(-50%, -50%);;
+  }
+}
+
+@media (width >= 768px) {
+  .dashboard {
+    grid-template: 'sidebar main' 1fr / var(--sidebar-width) 1fr;
+  }
+
+  .app-header {
+    display: none;
+  }
+
+  .sidebar {
+    position: relative;
+    grid-area: sidebar;
+    transform: translateX(0);
+  }
+
+  .overlay {
+    display: none !important;
+  }
+
+  .menu-toggle-btn {
+    display: none;
+  }
+
+  .task-details-modal {
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    max-height: 90vh;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    transform: translate(-50%, -50%);
+  }
+
+  .modal-content {
+    width: auto;
+  }
+}
+
+/* Accessibility */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -77,4 +619,10 @@ body {
   white-space: nowrap;
   border-width: 0;
   clip-path: inset(50%);
+}
+
+/* Focus states for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }

@@ -29,3 +29,94 @@
     </div>
   </li>
 </template>
+
+<!-- Project Form Template -->
+<template id="project-form-template">
+  <div class="modal-content">
+    <h3 class="modal-title">New Project</h3>
+    <form id="project-modal-form" class="modal-form">
+      <div class="form-group">
+        <label for="modal-project-title">Title</label>
+        <input type="text" id="modal-project-title" name="title" placeholder="e.g. Work, Groceries..." required autocomplete="off">
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-text cancel-btn">Cancel</button>
+        <button type="submit" class="btn-primary">Create Project</button>
+      </div>
+    </form>
+  </div>
+</template>
+
+<!-- Task Form Template -->
+<template id="task-form-template">
+  <div class="modal-content task-detail-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Task Details</h3>
+      <button type="button" class="btn-icon cancel-btn" aria-label="Close">
+        <span class="mdi mdi-close"></span>
+      </button>
+    </div>
+    <form id="task-modal-form" class="modal-form">
+      <div class="form-body">
+        <div class="form-group">
+          <label for="modal-task-title">Title</label>
+          <input type="text" id="modal-task-title" name="title" placeholder="What needs to be done?" required autocomplete="off">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="modal-task-date">Due Date</label>
+            <input type="date" id="modal-task-date" name="dueDate">
+          </div>
+          <div class="form-group">
+            <label for="modal-task-priority">Priority</label>
+            <select id="modal-task-priority" name="priority">
+              <option value="none">None</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="modal-task-desc">Description</label>
+          <textarea id="modal-task-desc" name="description" rows="2" placeholder="Add some context..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Checklist</label>
+          <div id="modal-checklist-container" class="modal-checklist">
+            <!-- Checklist items rendered here -->
+          </div>
+          <div class="add-checklist-item">
+            <input type="text" id="new-checklist-item" placeholder="Add a sub-task...">
+            <button type="button" id="add-subtask-btn" class="btn-icon-small">
+              <span class="mdi mdi-plus"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="modal-task-notes">Notes</label>
+          <textarea id="modal-task-notes" name="notes" rows="3" placeholder="Extra notes..."></textarea>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="submit" class="btn-primary full-width">Save Task</button>
+      </div>
+    </form>
+  </div>
+</template>
+
+<!-- Checklist Item Template (Inside Modal) -->
+<template id="checklist-item-template">
+  <div class="checklist-item">
+    <input type="checkbox" class="subtask-checkbox">
+    <span class="subtask-text"></span>
+    <button type="button" class="delete-subtask-btn btn-icon-small" aria-label="Delete Subtask">
+      <span class="mdi mdi-trash-can-outline"></span>
+    </button>
+  </div>
+</template>
