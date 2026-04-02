@@ -212,13 +212,53 @@ export function initEventHandlers() {
     }
   });
 
-  // Theme Switching
+  // --- Theme Management ---
+  const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+  const updateThemeUI = (theme) => {
+    const icon = themeToggle?.querySelector('.mdi');
+    if (!icon) return;
+
+    if (theme === 'dark') {
+      icon.className = 'mdi mdi-weather-night';
+    } else if (theme === 'light') {
+      icon.className = 'mdi mdi-weather-sunny';
+    } else {
+      // Sync icon with system preference when no manual override
+      icon.className = systemPrefersDark.matches ? 'mdi mdi-weather-night' : 'mdi mdi-weather-sunny';
+    }
+  };
+
+  // 1. Initial Sync (from storage or system preference)
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeUI(savedTheme);
+  } else {
+    updateThemeUI(null);
+  }
+
+  // 2. Toggle Event Listener
   themeToggle?.addEventListener('click', () => {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    const newTheme = isDark ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    themeToggle.querySelector('.mdi').className =
-      `mdi ${newTheme === 'dark' ? 'mdi-weather-night' : 'mdi-weather-sunny'}`;
+    const currentTheme = localStorage.getItem('theme');
+    let nextTheme;
+
+    if (!currentTheme) {
+      nextTheme = systemPrefersDark.matches ? 'light' : 'dark';
+    } else {
+      nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    }
+
+    document.documentElement.setAttribute('data-theme', nextTheme);
+    localStorage.setItem('theme', nextTheme);
+    updateThemeUI(nextTheme);
+  });
+
+  // 3. Real-time System Theme Tracking
+  systemPrefersDark.addEventListener('change', () => {
+    if (!localStorage.getItem('theme')) {
+      updateThemeUI(null);
+    }
   });
 
   // View Switching

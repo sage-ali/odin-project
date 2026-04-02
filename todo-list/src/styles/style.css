@@ -4,16 +4,34 @@
  */
 
 :root {
-  /* Colors - Light Mode (Default) */
+  /* Palette - Light */
+  --palette-bg-light: #fff;
+  --palette-bg-sidebar-light: #f8fafc;
+  --palette-bg-card-light: #fff;
+  --palette-text-light: #0f172a;
+  --palette-text-muted-light: #64748b;
+  --palette-border-light: #e2e8f0;
+  --palette-overlay-light: rgb(0 0 0 / 40%);
+
+  /* Palette - Dark */
+  --palette-bg-dark: #0f172a;
+  --palette-bg-sidebar-dark: #1e293b;
+  --palette-bg-card-dark: #1e293b;
+  --palette-text-dark: #f1f5f9;
+  --palette-text-muted-dark: #94a3b8;
+  --palette-border-dark: #334155;
+  --palette-overlay-dark: rgb(0 0 0 / 60%);
+
+  /* Theme Variables - Default to Light */
   --primary: #2563eb;
   --primary-hover: #1d4ed8;
-  --bg: #fff;
-  --bg-sidebar: #f8fafc;
-  --bg-card: #fff;
-  --text: #0f172a;
-  --text-muted: #64748b;
-  --border: #e2e8f0;
-  --overlay: rgb(0 0 0 / 40%);
+  --bg: var(--palette-bg-light);
+  --bg-sidebar: var(--palette-bg-sidebar-light);
+  --bg-card: var(--palette-bg-card-light);
+  --text: var(--palette-text-light);
+  --text-muted: var(--palette-text-muted-light);
+  --border: var(--palette-border-light);
+  --overlay: var(--palette-overlay-light);
 
   /* Priorities */
   --priority-high: #ef4444;
@@ -29,15 +47,38 @@
   --transition: 0.2s ease-in-out;
 }
 
-/* Dark Mode Overrides */
-[data-theme='dark'] {
-  --bg: #0f172a;
-  --bg-sidebar: #1e293b;
-  --bg-card: #1e293b;
-  --text: #f1f5f9;
-  --text-muted: #94a3b8;
-  --border: #334155;
-  --overlay: rgb(0 0 0 / 60%);
+/* Auto-detect System Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: var(--palette-bg-dark);
+    --bg-sidebar: var(--palette-bg-sidebar-dark);
+    --bg-card: var(--palette-bg-card-dark);
+    --text: var(--palette-text-dark);
+    --text-muted: var(--palette-text-muted-dark);
+    --border: var(--palette-border-dark);
+    --overlay: var(--palette-overlay-dark);
+  }
+}
+
+/* Manual Theme Overrides */
+[data-theme="dark"] {
+  --bg: var(--palette-bg-dark);
+  --bg-sidebar: var(--palette-bg-sidebar-dark);
+  --bg-card: var(--palette-bg-card-dark);
+  --text: var(--palette-text-dark);
+  --text-muted: var(--palette-text-muted-dark);
+  --border: var(--palette-border-dark);
+  --overlay: var(--palette-overlay-dark);
+}
+
+[data-theme="light"] {
+  --bg: var(--palette-bg-light);
+  --bg-sidebar: var(--palette-bg-sidebar-light);
+  --bg-card: var(--palette-bg-card-light);
+  --text: var(--palette-text-light);
+  --text-muted: var(--palette-text-muted-light);
+  --border: var(--palette-border-light);
+  --overlay: var(--palette-overlay-light);
 }
 
 /* Base Styles */
@@ -269,9 +310,19 @@ input {
 }
 
 /* Status specific colors in grouped view */
-.task-group-section:nth-child(1) .group-header { border-color: var(--text-muted); }
-.task-group-section:nth-child(2) .group-header { border-color: var(--primary); }
-.task-group-section:nth-child(3) .group-header { border-color: #22c55e; } /* Done green */
+.task-group-section:nth-child(1) .group-header {
+  border-color: var(--text-muted);
+}
+
+.task-group-section:nth-child(2) .group-header {
+  border-color: var(--primary);
+}
+
+.task-group-section:nth-child(3) .group-header {
+  border-color: #22c55e;
+}
+
+/* Done green */
 
 /* Task List Items */
 .task-list {
@@ -438,18 +489,30 @@ input {
 
 /* Modal / Dialog Styles */
 .details-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
   padding: 0;
+  margin: 0;
   overflow: hidden;
   color: var(--text);
   outline: none;
   background: none;
   border: none;
   border-radius: 24px 24px 0 0;
+  transform: translateY(100%);
+  transition: transform 2s ease-out;
 }
 
 .details-modal::backdrop {
   background-color: var(--overlay);
   backdrop-filter: blur(2px);
+}
+
+
+.details-modal[open] {
+  transform: translate(-50%, -50%);
+  ;
 }
 
 /* Modal Layout */
@@ -636,24 +699,10 @@ footer {
 }
 
 /* Responsive Enhancements */
-@media (width < 768px) {
-  .details-modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin: 0;
-    transform: translateY(100%);
-    transition: transform 2s ease-out;
-  }
 
-  .details-modal[open] {
-    transform: translate(-50%, -50%);;
-  }
-}
-
-@media (width >= 768px) {
+@media (width >=768px) {
   .dashboard {
-    grid-template: 'sidebar main' 1fr / var(--sidebar-width) 1fr;
+    grid-template: 'sidebar main'1fr / var(--sidebar-width) 1fr;
   }
 
   .app-header {
@@ -679,13 +728,12 @@ footer {
     left: 50%;
     width: 500px;
     max-height: 90vh;
-    border: 1px solid var(--border);
     border-radius: 16px;
-    transform: translate(-50%, -50%);
   }
 
   .modal-content {
     width: auto;
+
   }
 }
 
