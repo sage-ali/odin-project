@@ -227,6 +227,8 @@ export function initEventHandlers() {
       // Sync icon with system preference when no manual override
       icon.className = systemPrefersDark.matches ? 'mdi mdi-weather-night' : 'mdi mdi-weather-sunny';
     }
+    // Assign view-transition-name for animation
+    icon.style.viewTransitionName = 'theme-icon';
   };
 
   // 1. Initial Sync (from storage or system preference)
@@ -249,9 +251,17 @@ export function initEventHandlers() {
       nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
     }
 
-    document.documentElement.setAttribute('data-theme', nextTheme);
-    localStorage.setItem('theme', nextTheme);
-    updateThemeUI(nextTheme);
+    const updateTheme = () => {
+      document.documentElement.setAttribute('data-theme', nextTheme);
+      localStorage.setItem('theme', nextTheme);
+      updateThemeUI(nextTheme);
+    };
+
+    if (document.startViewTransition) {
+      document.startViewTransition(updateTheme);
+    } else {
+      updateTheme();
+    }
   });
 
   // 3. Real-time System Theme Tracking

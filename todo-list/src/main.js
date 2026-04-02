@@ -25,7 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 4. Wire UI to PubSub
   pubsub.on('stateUpdated', (state) => {
-    render(state);
+    if (document.startViewTransition) {
+      document.startViewTransition(() => render(state));
+    } else {
+      render(state);
+    }
   });
 
   // 5. Initialize Event Handlers (Delegation & Forms)

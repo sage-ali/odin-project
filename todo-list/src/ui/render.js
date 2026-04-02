@@ -46,6 +46,8 @@ function renderProjects(projects, activeProjectId) {
     }
 
     item.setAttribute('data-project-id', project.id);
+    // Assign unique name for View Transitions
+    item.style.viewTransitionName = `project-${project.id}`;
     projectList.appendChild(clone);
   });
 }
@@ -77,6 +79,8 @@ function renderTaskList(tasks, container) {
     }
 
     row.setAttribute('data-task-id', todo.id);
+    // Assign unique name for View Transitions
+    row.style.viewTransitionName = `task-${todo.id}`;
     container.appendChild(clone);
   });
 }
@@ -88,8 +92,11 @@ function renderListView(tasks, state) {
 
   const activeProject = state.projects.find((p) => p.id === state.activeProjectId);
   activeTitle.textContent = activeProject ? activeProject.title : 'Inbox';
+  // Animate the title too
+  activeTitle.style.viewTransitionName = 'project-title';
 
   taskList.className = 'task-list';
+  taskList.style.viewTransitionName = 'task-list';
   taskList.innerHTML = '';
   renderTaskList(tasks, taskList);
 }
@@ -99,6 +106,7 @@ function renderGroupedView(groups) {
   if (!taskList) return;
 
   taskList.className = 'task-list grouped-view';
+  taskList.style.viewTransitionName = 'task-list';
   taskList.innerHTML = '';
 
   Object.entries(groups).forEach(([groupName, tasks]) => {
