@@ -1,0 +1,1 @@
+cd weather-app && pnpm exec commitlint --edit "$1"
