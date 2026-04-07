@@ -1,3 +1,5 @@
+import { CURRENT_WEATHER_VARS, DAILY_WEATHER_VARS } from '@/services/weatherApi';
+
 /**
  * API Request object to Open-Meteo
  * for geolocation data
@@ -16,9 +18,8 @@ export interface WeatherQueryParams {
   latitude: number;
   longitude: number;
   timezone: string;
-  usesTimezone: boolean;
-  current: string[]; // List of current weather variables
-  daily: string[]; // List of daily forecast variables
+  current: typeof CURRENT_WEATHER_VARS; // List of current weather variables
+  daily: typeof DAILY_WEATHER_VARS; // List of daily forecast variables
 }
 
 /**
@@ -90,7 +91,7 @@ export interface OpenMeteoResponse {
 export interface ProcessedWeather {
   // Hero Section
   location: string;
-  temp: number;
+  temp: number; // Temperature comes in celsius
   apparentTemp: number; // "Feels like"
   condition: string; // e.g., "Partly Cloudy"
   icon: string; // e.g., "wb_sunny" (Material Icon name)

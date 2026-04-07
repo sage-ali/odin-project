@@ -43,7 +43,7 @@ export default tseslint.config(
       'import/prefer-default-export': 'off',
       'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
       'import/no-unresolved': 'off',
-      'import/extensions': ['error', 'ignorePackages', { js: 'always', ts: 'never' }],
+      'import/extensions': 'off',
       'no-underscore-dangle': ['error', { allow: ['__filename', '__dirname'] }],
       'security/detect-object-injection': 'off',
     },
