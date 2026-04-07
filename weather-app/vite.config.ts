@@ -2,9 +2,11 @@ import { defineConfig } from 'vitest/config';
 import legacy from '@vitejs/plugin-legacy';
 import { visualizer } from 'rollup-plugin-visualizer';
 import tailwindcss from '@tailwindcss/vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   plugins: [
+    tsconfigPaths(),
     tailwindcss(),
     legacy({
       targets: ['defaults', 'not IE 11'],
